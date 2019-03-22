@@ -1,11 +1,10 @@
-import axios from 'axios' 
-const url="https://twitter-ore-j.herokuapp.com/tweet/"
+import axios from "axios";
+const url = "https://twitter-ore-j.herokuapp.com/tweet/";
 
-export default function getTweetById(id) {
-    axios.get(url + 'yyama694/10')
-    .then(
-        function (response) {
-            return response.data;
-        }
-    )
+export default async function getTweetById(id) {
+  return await axios
+    .get(url + id + "/200?trim_user=true")
+    .then(function(response) {
+      return response.data.reverse();
+    });
 }
