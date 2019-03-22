@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Gyakutter</h1>
-    <input type="text" />
+    <input v-model="user_id" type="text" />
     <input type="button" value="Search" @click="search" />
     <div v-for="d in list" :key="d.id_str" class="tweet">{{ d.text }}</div>
   </div>
@@ -17,13 +17,14 @@ export default {
   },
   data: function() {
     return {
+      user_id: "",
       list: []
     };
   },
   methods: {
     search: function() {
       const self = this;
-      getTweetById("yyama694").then(function(result) {
+      getTweetById(this.user_id).then(function(result) {
         self.list = result;
       });
     }
