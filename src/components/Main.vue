@@ -1,13 +1,28 @@
 <template>
-  <div>
-    <h1>Gyakutter</h1>
-    <div>ログイン不要！ 時系列昇順で Tweet を表示するアプリです。</div>
-    <div></div>
-    <div>ユーザ名を指定して Search ボタンを押してください。</div>
-    @<input v-model="user_id" type="text" placeholder="例）yyama694" />
-    <input type="button" value="Search" @click="search" />
-    <div v-for="d in list" :key="d.id_str" class="tweet">{{ d.text }}</div>
+  <div class="container">
+<div class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Gyakutter
+      </h1>
+      <h2 class="subtitle">
+        ログイン不要！ 時系列昇順で Tweet を表示するアプリです。
+      </h2>
+    </div>
   </div>
+</div>
+      <div class="notification">
+          <div>ユーザ名を指定して Search ボタンを押してください。</div>
+          <div>
+            @<input v-model="user_id" type="text" placeholder="例）yyama694" />
+            <input type="button" value="Search" @click="search" />
+          </div>
+          <section class="section">
+          <div v-for="d in list" :key="d.id_str" class="box">{{ d.text }}</div>
+          </section>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -35,8 +50,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.tweet {
-  margin: 10px 10px 10px 10px;
-}
+<style scoped lang="sass">
+@import "../../node_modules/bulma/bulma.sass";
 </style>
