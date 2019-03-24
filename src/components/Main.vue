@@ -13,10 +13,21 @@
       </div>
     </div>
     <div class="notification">
-      <div>ユーザ名を指定して Search ボタンを押してください。</div>
-      <div>
-        @<input v-model="user_id" type="text" placeholder="例）yyama694" />
-        <input type="button" value="Search" @click="search" />
+      <div class="description">
+        ユーザ名を指定して Search ボタンを押してください。
+      </div>
+      <div class="columns">
+        <div class="column">
+          <input
+            v-model="user_id"
+            class="input"
+            type="text"
+            placeholder="例）yyama694"
+          />
+        </div>
+        <div class="column">
+          <a class="button is-success" @click="search">Search</a>
+        </div>
       </div>
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
@@ -76,4 +87,11 @@ $box-padding: 0.6rem
 @import "../../node_modules/bulma/bulma.sass";
 .tweet-text
   clear: both;
+
+.container
+  font-family : "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+.description
+  margin: 0rem 0rem 0.5rem 0rem
+.section
+  padding: 0rem 0rem;
 </style>
