@@ -39,10 +39,13 @@
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
           <div>
-            <span class="is-pulled-left">
-              {{ d.user.name }}@{{ d.user.screen_name }}
+            <span class="is-pulled-left has-text-black">
+              {{ d.user.name
+              }}<span class="has-text-grey is-size-7"
+                >@{{ d.user.screen_name }}</span
+              >
             </span>
-            <span class="is-pulled-right">
+            <span class="is-pulled-right has-text-grey is-size-7">
               {{ formatDate(d.created_at) }}
             </span>
           </div>
@@ -101,4 +104,8 @@ $box-padding: 0.6rem
   margin: 0rem 0rem 0.5rem 0rem
 .section
   padding: 0rem 0rem;
+.gray-text
+  color: $grey-light
+.black-text
+  color: $black
 </style>
