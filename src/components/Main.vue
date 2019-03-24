@@ -19,6 +19,7 @@
       <div class="columns">
         <div class="column">
           <input
+            tabindex="1"
             v-model="user_id"
             class="input"
             type="text"
@@ -26,7 +27,13 @@
           />
         </div>
         <div class="column">
-          <a class="button is-success" @click="search">Search</a>
+          <a
+            class="button is-success"
+            tabindex="2"
+            @click="search"
+            v-on:keyup.enter="search"
+            >Search</a
+          >
         </div>
       </div>
       <section class="section">
@@ -69,7 +76,7 @@ export default {
     },
     formatDate: function(dateStr) {
       const date = new Date(Date.parse(dateStr));
-      let format = "yyyy 年 MM 月 dd 日 HH:mm:ss";
+      let format = "yyyy年MM月dd日 HH:mm:ss";
       format = format.replace(/yyyy/g, date.getFullYear());
       format = format.replace(/MM/g, ("0" + (date.getMonth() + 1)).slice(-2));
       format = format.replace(/dd/g, ("0" + date.getDate()).slice(-2));
