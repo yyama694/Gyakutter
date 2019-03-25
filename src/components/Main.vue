@@ -7,7 +7,8 @@
             Gyakutter
           </h1>
           <h2 class="subtitle">
-            ログイン不要！ 時系列昇順で Tweet を表示するアプリです。
+            ログイン不要！ 時系列昇順で Tweet を表示する Twitter
+            クライアントです。
           </h2>
         </div>
       </div>
