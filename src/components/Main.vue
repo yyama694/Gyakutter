@@ -34,7 +34,8 @@
             class="button is-success"
             tabindex="2"
             @click="search"
-          >Search</a>
+            >Search</a
+          >
         </div>
       </div>
       <section class="section">
