@@ -40,18 +40,29 @@
       </div>
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
-          <div>
-            <span class="is-pulled-left has-text-black">
-              {{ d.user.name
-              }}<span class="has-text-grey is-size-7"
-                >@{{ d.user.screen_name }}</span
-              >
-            </span>
-            <span class="is-pulled-right has-text-grey is-size-7">
-              {{ formatDate(d.created_at) }}
-            </span>
+          <div class="columns  is-mobile">
+            <div class="column is-1">
+              <figure class="image">
+                <img
+                  clss="is-rounded"
+                  style="border-radius:50%"
+                  :src="d.user.profile_image_url_https"
+                />
+              </figure>
+            </div>
+            <div class="column">
+              <span class="is-pulled-left has-text-black">
+                {{ d.user.name
+                }}<span class="has-text-grey is-size-7"
+                  >@{{ d.user.screen_name }}</span
+                >
+              </span>
+              <span class="is-pulled-right has-text-grey is-size-7">
+                {{ formatDate(d.created_at) }}
+              </span>
+              <div class="tweet-text">{{ d.text }}</div>
+            </div>
           </div>
-          <div class="tweet-text">{{ d.text }}</div>
         </div>
       </section>
     </div>
