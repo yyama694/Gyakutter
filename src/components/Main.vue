@@ -24,17 +24,17 @@
             v-model="user_id"
             class="input"
             type="text"
+            @keyup.enter="search"
             placeholder="例）TwitterJP"
           />
         </div>
         <div class="column">
           <a
+            ref="btn_search"
             class="button is-success"
             tabindex="2"
             @click="search"
-            v-on:keyup.enter="search"
-            >Search</a
-          >
+          >Search</a>
         </div>
       </div>
       <section class="section">
@@ -77,6 +77,7 @@ export default {
       getTweetById(this.user_id).then(function(result) {
         self.list = result;
       });
+      self.$refs.btn_search.focus();
     },
     formatDate: function(dateStr) {
       const date = new Date(Date.parse(dateStr));
