@@ -24,7 +24,7 @@
             v-model="user_id"
             class="input"
             type="text"
-            placeholder="例）yyama694"
+            placeholder="例）TwitterJP"
           />
         </div>
         <div class="column">
