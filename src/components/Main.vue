@@ -40,6 +40,14 @@
       </div>
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
+          <div v-if="showAds()">
+<InFeedAdsense
+    data-ad-layout-key="-fb+5w+4e-db+86"
+    data-ad-client="ca-pub-2505812570403600"
+    data-ad-slot="9949395376">
+</InFeedAdsense>
+          </div>
+          <template v-else>
           <div class="columns  is-mobile">
             <div class="column is-1">
               <figure class="image">
@@ -63,6 +71,7 @@
               <div class="tweet-text">{{ d.text }}</div>
             </div>
           </div>
+          </template>
         </div>
       </section>
     </div>
@@ -101,6 +110,10 @@ export default {
       format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
       format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
       return format;
+    },
+    showAds: function() {
+      var random = Math.floor( Math.random() * 10 );
+      return random === 0;
     }
   }
 };
