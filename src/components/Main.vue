@@ -41,36 +41,34 @@
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
           <div v-if="showAds()">
-<InFeedAdsense
-    data-ad-layout-key="-fb+5w+4e-db+86"
-    data-ad-client="ca-pub-2505812570403600"
-    data-ad-slot="9949395376">
-</InFeedAdsense>
+            <vue-script-src
+              :sources="['//adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e']"
+            ></vue-script-src>
           </div>
           <template v-else>
-          <div class="columns  is-mobile">
-            <div class="column is-1">
-              <figure class="image">
-                <img
-                  clss="is-rounded"
-                  style="border-radius:50%"
-                  :src="d.user.profile_image_url_https"
-                />
-              </figure>
+            <div class="columns  is-mobile">
+              <div class="column is-1">
+                <figure class="image">
+                  <img
+                    clss="is-rounded"
+                    style="border-radius:50%"
+                    :src="d.user.profile_image_url_https"
+                  />
+                </figure>
+              </div>
+              <div class="column">
+                <span class="is-pulled-left has-text-black">
+                  {{ d.user.name
+                  }}<span class="has-text-grey is-size-7"
+                    >@{{ d.user.screen_name }}</span
+                  >
+                </span>
+                <span class="is-pulled-right has-text-grey is-size-7">
+                  {{ formatDate(d.created_at) }}
+                </span>
+                <div class="tweet-text">{{ d.text }}</div>
+              </div>
             </div>
-            <div class="column">
-              <span class="is-pulled-left has-text-black">
-                {{ d.user.name
-                }}<span class="has-text-grey is-size-7"
-                  >@{{ d.user.screen_name }}</span
-                >
-              </span>
-              <span class="is-pulled-right has-text-grey is-size-7">
-                {{ formatDate(d.created_at) }}
-              </span>
-              <div class="tweet-text">{{ d.text }}</div>
-            </div>
-          </div>
           </template>
         </div>
       </section>
@@ -80,8 +78,12 @@
 
 <script>
 import getTweetById from "../api/Tweet.js";
+import VueScriptSrc from "vue-script-src";
 
 export default {
+  components: {
+    VueScriptSrc
+  },
   name: "Main",
   props: {
     msg: String
@@ -112,7 +114,7 @@ export default {
       return format;
     },
     showAds: function() {
-      var random = Math.floor( Math.random() * 10 );
+      var random = Math.floor(Math.random() * 10);
       return random === 0;
     }
   }
