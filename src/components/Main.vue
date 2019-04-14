@@ -42,10 +42,10 @@
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
           <div
-            v-if="doShowAds()"
-            :id="'ads_' + d.id_str"
+            v-if="d === 'ads'"
             name="ad-space"
             class="ads"
+            :key="'ads_' + d.id_str"
           ></div>
           <div v-else class="columns  is-mobile">
             <div class="column is-1">
@@ -78,7 +78,6 @@
 
 <script>
 import getTweetById from "../api/Tweet.js";
-
 export default {
   name: "Main",
   props: {
@@ -92,11 +91,20 @@ export default {
   },
   methods: {
     search: function() {
-      console.log(this.$refs.input_user_id.value);
+      const tags = document.getElementsByName("ad-space");
+      tags.forEach(element => {
+        // 意味なかったら消す
+        while (element.firstChild) element.removeChild(element.firstChild);
+      });
+      // this.list.filter(function(element) {return element !=='ads'});
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
       getTweetById(this.user_id).then(function(result) {
         self.list = result;
+        for (let i = 0; i < self.list.length; i++) {
+          var random = Math.floor(Math.random() * 15);
+          if (random === 0) self.list.splice(i, 0, "ads");
+        }
       });
       self.$refs.btn_search.focus();
     },
@@ -110,15 +118,11 @@ export default {
       format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
       format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
       return format;
-    },
-    doShowAds: function() {
-      var random = Math.floor(Math.random() * 10);
-      return random === 0;
     }
   },
   updated() {
     const html =
-      "<script src=//adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e><\/script>"; // eslint-disable-line
+      '<script src="//adm.shinobi.jp/o/bb6c418f05a4949f7067f15353e17ee1"><\/script>'; //eslint-disable-line
     const tags = document.getElementsByName("ad-space");
     console.log(tags);
     tags.forEach(element => {
