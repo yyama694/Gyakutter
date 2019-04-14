@@ -41,9 +41,12 @@
       </div>
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
-          <div v-if="doShowAds()" :id="'ads_'+ d.id_str" name="ad-space" class="ads">
-            {{ showAds('ads_' + d.id_str) }}
-          </div>
+          <div
+            v-if="doShowAds()"
+            :id="'ads_' + d.id_str"
+            name="ad-space"
+            class="ads"
+          ></div>
           <div v-else class="columns  is-mobile">
             <div class="column is-1">
               <figure class="image">
@@ -75,12 +78,8 @@
 
 <script>
 import getTweetById from "../api/Tweet.js";
-import VueScriptSrc from "vue-script-src";
 
 export default {
-  components: {
-    VueScriptSrc
-  },
   name: "Main",
   props: {
     msg: String
@@ -92,12 +91,9 @@ export default {
     };
   },
   methods: {
-    showAds: function(id) {
-
-    },
     search: function() {
       console.log(this.$refs.input_user_id.value);
-      this.user_id = this.$refs.input_user_id.value
+      this.user_id = this.$refs.input_user_id.value;
       const self = this;
       getTweetById(this.user_id).then(function(result) {
         self.list = result;
@@ -120,24 +116,25 @@ export default {
       return random === 0;
     }
   },
-  updated(){
-      const html = "<script src=\/\/adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e><\/script>";
-      const tags = document.getElementsByName('ad-space');
-      console.log(tags);
-      tags.forEach(element => {
-        const iframe = document.createElement('iframe');
-        iframe.setAttribute('scrolling','no');
-        iframe.setAttribute('frameborder','0');   
-        iframe.setAttribute('border','0');   
-        iframe.setAttribute('width','100%');   
-        iframe.setAttribute('height','100px');   
-            
-        element.appendChild(iframe);
-        const iframeDocument = iframe.contentWindow.document;
-        iframeDocument.open();
-        iframeDocument.write(html);
-        iframeDocument.close();
-      });
+  updated() {
+    const html =
+      "<script src=//adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e><\/script>"; // eslint-disable-line
+    const tags = document.getElementsByName("ad-space");
+    console.log(tags);
+    tags.forEach(element => {
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("scrolling", "no");
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("border", "0");
+      iframe.setAttribute("width", "100%");
+      iframe.setAttribute("height", "100px");
+
+      element.appendChild(iframe);
+      const iframeDocument = iframe.contentWindow.document;
+      iframeDocument.open();
+      iframeDocument.write(html);
+      iframeDocument.close();
+    });
   }
 };
 </script>
