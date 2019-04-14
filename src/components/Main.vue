@@ -21,11 +21,12 @@
         <div class="column">
           <input
             tabindex="1"
-            v-model="user_id"
+            :value="user_id"
             class="input"
             type="text"
             @keyup.enter="search"
             placeholder="例）TwitterJP"
+            ref="input_user_id"
           />
         </div>
         <div class="column">
@@ -40,36 +41,32 @@
       </div>
       <section class="section">
         <div v-for="d in list" :key="d.id_str" class="box">
-          <div v-if="showAds()">
-            <vue-script-src
-              :sources="['//adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e']"
-            ></vue-script-src>
+          <div v-if="doShowAds()" :id="'ads_'+ d.id_str" name="ad-space" class="ads">
+            {{ showAds('ads_' + d.id_str) }}
           </div>
-          <template v-else>
-            <div class="columns  is-mobile">
-              <div class="column is-1">
-                <figure class="image">
-                  <img
-                    clss="is-rounded"
-                    style="border-radius:50%"
-                    :src="d.user.profile_image_url_https"
-                  />
-                </figure>
-              </div>
-              <div class="column">
-                <span class="is-pulled-left has-text-black">
-                  {{ d.user.name
-                  }}<span class="has-text-grey is-size-7"
-                    >@{{ d.user.screen_name }}</span
-                  >
-                </span>
-                <span class="is-pulled-right has-text-grey is-size-7">
-                  {{ formatDate(d.created_at) }}
-                </span>
-                <div class="tweet-text">{{ d.text }}</div>
-              </div>
+          <div v-else class="columns  is-mobile">
+            <div class="column is-1">
+              <figure class="image">
+                <img
+                  clss="is-rounded"
+                  style="border-radius:50%"
+                  :src="d.user.profile_image_url_https"
+                />
+              </figure>
             </div>
-          </template>
+            <div class="column">
+              <span class="is-pulled-left has-text-black">
+                {{ d.user.name
+                }}<span class="has-text-grey is-size-7"
+                  >@{{ d.user.screen_name }}</span
+                >
+              </span>
+              <span class="is-pulled-right has-text-grey is-size-7">
+                {{ formatDate(d.created_at) }}
+              </span>
+              <div class="tweet-text">{{ d.text }}</div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -95,7 +92,12 @@ export default {
     };
   },
   methods: {
+    showAds: function(id) {
+
+    },
     search: function() {
+      console.log(this.$refs.input_user_id.value);
+      this.user_id = this.$refs.input_user_id.value
       const self = this;
       getTweetById(this.user_id).then(function(result) {
         self.list = result;
@@ -113,10 +115,29 @@ export default {
       format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
       return format;
     },
-    showAds: function() {
+    doShowAds: function() {
       var random = Math.floor(Math.random() * 10);
       return random === 0;
     }
+  },
+  updated(){
+      const html = "<script src=\/\/adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e><\/script>";
+      const tags = document.getElementsByName('ad-space');
+      console.log(tags);
+      tags.forEach(element => {
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('scrolling','no');
+        iframe.setAttribute('frameborder','0');   
+        iframe.setAttribute('border','0');   
+        iframe.setAttribute('width','100%');   
+        iframe.setAttribute('height','100px');   
+            
+        element.appendChild(iframe);
+        const iframeDocument = iframe.contentWindow.document;
+        iframeDocument.open();
+        iframeDocument.write(html);
+        iframeDocument.close();
+      });
   }
 };
 </script>
@@ -137,4 +158,8 @@ $box-padding: 0.6rem
   color: $grey-light
 .black-text
   color: $black
+.ads
+  width: 100%
+  height: 100%
+  margin: auto
 </style>
