@@ -20,6 +20,7 @@
       <div class="columns">
         <div class="column">
           <input
+            id="search-text"
             tabindex="1"
             :value="user_id"
             class="input"
@@ -119,6 +120,9 @@ export default {
       format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
       return format;
     }
+  },
+  mounted() {
+    document.getElementById("search-text").focus();
   },
   updated() {
     const html =
