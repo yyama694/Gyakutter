@@ -35,6 +35,7 @@
             class="button is-success"
             tabindex="2"
             @click="search"
+            @keyup.enter="search"
             >Search</a
           >
         </div>
@@ -96,7 +97,6 @@ export default {
         // 意味なかったら消す
         while (element.firstChild) element.removeChild(element.firstChild);
       });
-      // this.list.filter(function(element) {return element !=='ads'});
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
       getTweetById(this.user_id).then(function(result) {
