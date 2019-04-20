@@ -42,6 +42,13 @@
         </div>
       </div>
       <section class="section">
+        <div id="spinner" class="spinner">
+          <half-circle-spinner
+            :animation-duration="1000"
+            :size="60"
+            color="#00d1b2"
+          />
+        </div>
         <div v-for="d in list" :key="d.id_str" class="box">
           <div
             v-if="d === 'ads'"
@@ -80,7 +87,11 @@
 
 <script>
 import getTweetById from "../api/Tweet.js";
+import { HalfCircleSpinner } from "epic-spinners";
 export default {
+  components: {
+    HalfCircleSpinner
+  },
   name: "Main",
   props: {
     msg: String
@@ -93,6 +104,7 @@ export default {
   },
   methods: {
     search: function() {
+      document.getElementById("spinner").style.display = "block";
       const tags = document.getElementsByName("ad-space");
       tags.forEach(element => {
         // 意味なかったら消す
@@ -106,6 +118,7 @@ export default {
           var random = Math.floor(Math.random() * 15);
           if (random === 0) self.list.splice(i, 0, "ads");
         }
+        document.getElementById("spinner").style.display = "none";
       });
       self.$refs.btn_search.focus();
     },
@@ -167,4 +180,10 @@ $box-padding: 0.6rem
   width: 100%
   height: 100%
   margin: auto
+.spinner
+  width: 60px
+  height: 60px
+  margin: auto
+  display: none
+  padding: 1rem
 </style>
