@@ -25,7 +25,7 @@
             class="input"
             type="text"
             @keyup.enter="search"
-            placeholder="例）TwitterJP"
+            placeholder="例）@TwitterJP"
             ref="input_user_id"
           />
         </div>
