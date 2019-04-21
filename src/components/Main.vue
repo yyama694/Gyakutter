@@ -132,24 +132,30 @@ export default {
       format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
       format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
       return format;
+    },
+    getDisplayWidh: function() {
+      return document.body.clientWidth;
     }
   },
   mounted() {
     document.getElementById("search-text").focus();
   },
   updated() {
+    const windowWidh = this.getDisplayWidh();
     const html =
-      '<script src="//adm.shinobi.jp/o/bb6c418f05a4949f7067f15353e17ee1"><\/script>'; //eslint-disable-line
+      windowWidh > 780
+        ? '<script src="//adm.shinobi.jp/s/6ceb5a2c7c61f2b1f65ef5095d17e63e"><\/script>': //eslint-disable-line 
+      '<script src="//adm.shinobi.jp/s/ed15fe210d870b401447c2ae7992e5a7"><\/script>'; //eslint-disable-line
     const tags = document.getElementsByName("ad-space");
-    console.log(tags);
     tags.forEach(element => {
       const iframe = document.createElement("iframe");
       iframe.setAttribute("scrolling", "no");
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("border", "0");
-      iframe.setAttribute("width", "100%");
-      iframe.setAttribute("height", "100px");
-
+      iframe.setAttribute(
+        "class",
+        windowWidh > 780 ? "iframe-ads-pc" : "iframe-ads-mobile"
+      );
       element.appendChild(iframe);
       const iframeDocument = iframe.contentWindow.document;
       iframeDocument.open();
@@ -160,7 +166,7 @@ export default {
 };
 </script>
 
-<style scoped lang="sass">
+<style lang="sass">
 $box-padding: 0.6rem
 @import "../../node_modules/bulma/bulma.sass";
 .tweet-text
@@ -186,4 +192,10 @@ $box-padding: 0.6rem
   margin: auto
   display: none
   padding: 1rem
+.iframe-ads-pc
+  height: 100px;
+  width: 100%;
+.iframe-ads-mobile
+  height: 260px;
+  width: 100%;
 </style>
