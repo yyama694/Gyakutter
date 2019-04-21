@@ -238,6 +238,7 @@ $box-padding: 0.6rem
   height: 260px;
   width: 100%;
 #return-top
+  opacity: 0.8 ;
   background-color: #00d1b2;
   border-radius: 50%;
   bottom: 10px;
