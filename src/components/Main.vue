@@ -80,6 +80,7 @@
             </div>
           </div>
         </div>
+        <a href="#" id="return-top">Top</a>
       </section>
     </div>
   </div>
@@ -88,6 +89,7 @@
 <script>
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
+
 export default {
   components: {
     HalfCircleSpinner
@@ -135,10 +137,37 @@ export default {
     },
     getDisplayWidh: function() {
       return document.body.clientWidth;
+    },
+    scrollToTop: function(elmId, duration) {
+      //トップに戻るボタンの要素の取得
+      var topButton = document.getElementById(elmId);
+
+      topButton.addEventListener(
+        "click",
+        function(e) {
+          //デフォルトの動作の制御
+          e.preventDefault();
+
+          var begin = new Date() - 0;
+          var yOffset = window.pageYOffset;
+          var timer = setInterval(function() {
+            var current = new Date() - begin;
+            if (current > duration) {
+              clearInterval(timer);
+              current = duration;
+            }
+
+            //スクロール位置を単位時間で変更する
+            window.scrollTo(0, yOffset * (1 - current / duration));
+          }, 10);
+        },
+        false
+      );
     }
   },
   mounted() {
     document.getElementById("search-text").focus();
+    this.scrollToTop("return-top", 300);
   },
   updated() {
     const windowWidh = this.getDisplayWidh();
@@ -169,6 +198,7 @@ export default {
 <style lang="sass">
 $box-padding: 0.6rem
 @import "../../node_modules/bulma/bulma.sass";
+
 .tweet-text
   clear: both;
 
@@ -198,4 +228,20 @@ $box-padding: 0.6rem
 .iframe-ads-mobile
   height: 260px;
   width: 100%;
+#return-top
+  background-color: #00d1b2;
+  border-radius: 50%;
+  bottom: 10px;
+  color: #fff;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+  outline: 0;
+  position: fixed;
+  right: 10px;
+  text-align: center;
+  width: 50px;
+  transition: 0.5s;
+#return-top:hover
+  opacity: 0.5 ;
 </style>
