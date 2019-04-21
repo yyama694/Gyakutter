@@ -49,6 +49,9 @@
             color="#00d1b2"
           />
         </div>
+        <div id="error-msg" class="error">
+          ツィートが取得できませんでした。
+        </div>
         <div v-for="d in list" :key="d.id_str" class="box">
           <div
             v-if="d === 'ads'"
@@ -106,6 +109,7 @@ export default {
   },
   methods: {
     search: function() {
+      document.getElementById("error-msg").style.display = "none";
       document.getElementById("spinner").style.display = "block";
       const tags = document.getElementsByName("ad-space");
       tags.forEach(element => {
@@ -114,14 +118,20 @@ export default {
       });
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
-      getTweetById(this.user_id).then(function(result) {
-        self.list = result;
-        for (let i = 0; i < self.list.length; i++) {
-          var random = Math.floor(Math.random() * 15);
-          if (random === 0) self.list.splice(i, 0, "ads");
-        }
-        document.getElementById("spinner").style.display = "none";
-      });
+      getTweetById(this.user_id)
+        .then(function(result) {
+          self.list = result;
+          for (let i = 0; i < self.list.length; i++) {
+            var random = Math.floor(Math.random() * 20);
+            if (random === 0) self.list.splice(i, 0, "ads");
+          }
+          document.getElementById("spinner").style.display = "none";
+        })
+        .catch(() => {
+          self.list = [];
+          document.getElementById("error-msg").style.display = "block";
+          document.getElementById("spinner").style.display = "none";
+        });
       self.$refs.btn_search.focus();
     },
     formatDate: function(dateStr) {
@@ -201,7 +211,6 @@ $box-padding: 0.6rem
 
 .tweet-text
   clear: both;
-
 .container
   font-family : "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
 .description
@@ -221,7 +230,7 @@ $box-padding: 0.6rem
   height: 60px
   margin: auto
   display: none
-  padding: 1rem
+  padding: 0
 .iframe-ads-pc
   height: 100px;
   width: 100%;
@@ -244,4 +253,8 @@ $box-padding: 0.6rem
   transition: 0.5s;
 #return-top:hover
   opacity: 0.5 ;
+.error
+  color: $danger
+  font-weight: bold;
+  display: none;
 </style>
