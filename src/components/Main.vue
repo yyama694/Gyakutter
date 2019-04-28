@@ -59,27 +59,68 @@
             class="ads"
             :key="'ads_' + d.id_str"
           ></div>
-          <div v-else class="columns  is-mobile">
-            <div class="column is-1-desktop is-1-tablet is-2-mobile">
-              <figure class="image">
-                <img
-                  clss="is-rounded"
-                  style="border-radius:50%"
-                  :src="d.user.profile_image_url_https"
-                />
-              </figure>
+          <div v-else>
+            <div
+              class="columns is-mobile"
+              v-if="d.retweeted_status"
+              style="padding: 0; margin: 0;"
+            >
+              <div
+                class="column is-1-desktop is-1-tablet is-2-mobile"
+                style="padding: 0;"
+              >
+                <font-awesome-icon icon="retweet" class="fa-pull-right" />
+              </div>
+              <div class="column"></div>
             </div>
-            <div class="column">
-              <span class="is-pulled-left has-text-black">
-                {{ d.user.name
-                }}<span class="has-text-grey is-size-7"
-                  >@{{ d.user.screen_name }}</span
-                >
-              </span>
-              <span class="is-pulled-right has-text-grey is-size-7">
-                {{ formatDate(d.created_at) }}
-              </span>
-              <div class="tweet-text">{{ d.text }}</div>
+
+            <div class="columns  is-mobile" v-if="!d.retweeted_status">
+              <!-- 通常のツイート -->
+              <div class="column is-1-desktop is-1-tablet is-2-mobile">
+                <figure class="image">
+                  <img
+                    clss="is-rounded"
+                    style="border-radius:50%"
+                    :src="d.user.profile_image_url_https"
+                  />
+                </figure>
+              </div>
+              <div class="column">
+                <span class="is-pulled-left has-text-black">
+                  {{ d.user.name
+                  }}<span class="has-text-grey is-size-7"
+                    >@{{ d.user.screen_name }}</span
+                  >
+                </span>
+                <span class="is-pulled-right has-text-grey is-size-7">
+                  {{ formatDate(d.created_at) }}
+                </span>
+                <div class="tweet-text">{{ d.text }}</div>
+              </div>
+            </div>
+            <div class="columns  is-mobile" v-else>
+              <!-- 引用リツイート -->
+              <div class="column is-1-desktop is-1-tablet is-2-mobile">
+                <figure class="image">
+                  <img
+                    clss="is-rounded"
+                    style="border-radius:50%"
+                    :src="d.retweeted_status.user.profile_image_url_https"
+                  />
+                </figure>
+              </div>
+              <div class="column">
+                <span class="is-pulled-left has-text-black">
+                  {{ d.retweeted_status.user.name
+                  }}<span class="has-text-grey is-size-7"
+                    >@{{ d.retweeted_status.user.screen_name }}</span
+                  >
+                </span>
+                <span class="is-pulled-right has-text-grey is-size-7">
+                  {{ formatDate(d.retweeted_status.created_at) }}
+                </span>
+                <div class="tweet-text">{{ d.retweeted_status.text }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -255,7 +296,10 @@ $box-padding: 0.6rem
 #return-top:hover
   opacity: 0.5 ;
 .error
-  color: $danger
+  color: $danger;
   font-weight: bold;
   display: none;
+.fa-retweet
+  color: $grey-light;
+  padding: 0;
 </style>
