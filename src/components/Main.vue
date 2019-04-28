@@ -60,7 +60,7 @@
             :key="'ads_' + d.id_str"
           ></div>
           <div v-else class="columns  is-mobile">
-            <div class="column is-1">
+            <div class="column is-1-desktop is-1-tablet is-2-mobile">
               <figure class="image">
                 <img
                   clss="is-rounded"
