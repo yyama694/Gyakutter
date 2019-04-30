@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div style="background-color: #eff7f6">
     <div class="hero is-primary">
       <div class="hero-body">
         <div class="container">
@@ -13,7 +13,8 @@
         </div>
       </div>
     </div>
-    <div class="notification">
+    <div class="container">
+      <div class="main-area">
       <div class="description">
         ユーザ名を指定して Search ボタンを押してください。
       </div>
@@ -52,7 +53,7 @@
         <div id="error-msg" class="error">
           ツィートが取得できませんでした。
         </div>
-        <div v-for="d in list" :key="d.id_str" class="box">
+        <div v-for="d in list" :key="d.id_str" class="box" style="margin-bottom: 1.0rem">
           <div
             v-if="d === 'ads'"
             name="ad-space"
@@ -90,6 +91,7 @@
         </div>
         <a href="#" id="return-top">Top</a>
       </section>
+      </div>
     </div>
   </div>
 </template>
@@ -272,4 +274,6 @@ $box-padding: 0.6rem
 .fa-retweet
   color: $grey-light;
   padding: 0;
+.main-area
+  padding: 1rem 1rem 1rem 1rem;
 </style>

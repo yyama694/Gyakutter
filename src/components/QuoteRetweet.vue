@@ -13,7 +13,7 @@
       <span class="is-pulled-left has-text-black">
         {{ data.user.name
         }}<span class="has-text-grey is-size-7"
-          >@{{ data.user.screen_name }}</span
+          ><a href="#">@{{ data.user.screen_name }}</a></span
         >
       </span>
       <span class="is-pulled-right has-text-grey is-size-7">
@@ -26,7 +26,7 @@
             <span class="is-pulled-left has-text-black">
               {{ data.quoted_status.user.name
               }}<span class="has-text-grey is-size-7"
-                >@{{ data.quoted_status.user.screen_name }}</span
+                >@<a href="#">{{ data.quoted_status.user.screen_name }}</a></span
               >
             </span>
             <span class="is-pulled-right has-text-grey is-size-7">

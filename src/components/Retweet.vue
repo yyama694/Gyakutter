@@ -13,7 +13,7 @@
       <span class="is-pulled-left has-text-black">
         {{ data.retweeted_status.user.name
         }}<span class="has-text-grey is-size-7"
-          >@{{ data.retweeted_status.user.screen_name }}</span
+          >@<a href="#">{{ data.retweeted_status.user.screen_name }}</a></span
         >
       </span>
       <span class="is-pulled-right has-text-grey is-size-7">
