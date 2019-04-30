@@ -5,24 +5,25 @@
         <img
           clss="is-rounded"
           style="border-radius:50%"
-          :src="data.user.profile_image_url_https"
+          :src="data.retweeted_status.user.profile_image_url_https"
         />
       </figure>
     </div>
     <div class="column">
       <span class="is-pulled-left has-text-black">
-        {{ data.user.name
+        {{ data.retweeted_status.user.name
         }}<span class="has-text-grey is-size-7"
-          >@{{ data.user.screen_name }}</span
+          >@{{ data.retweeted_status.user.screen_name }}</span
         >
       </span>
       <span class="is-pulled-right has-text-grey is-size-7">
-        {{ fd(data.created_at) }}
+        {{ fd(data.retweeted_status.created_at) }}
       </span>
-      <div class="tweet-text">{{ data.text }}</div>
+      <div class="tweet-text">{{ data.retweeted_status.text }}</div>
     </div>
   </div>
 </template>
+
 <script>
 import {formatDate as formatDate} from "./common.js"
 export default {
@@ -32,10 +33,12 @@ export default {
       required: true
     }
   },
-  methods:{
+    methods:{
     fd: function(dateStr) {
       return formatDate(dateStr);
     },
   }
-};
+}
 </script>
+
+<style></style>
