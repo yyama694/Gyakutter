@@ -94,7 +94,7 @@
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
 import NormalTweet from "./NormalTweet.vue";
-import Retweet from "./Retweet.vue"
+import Retweet from "./Retweet.vue";
 export default {
   components: {
     HalfCircleSpinner,

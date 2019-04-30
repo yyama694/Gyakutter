@@ -1,5 +1,5 @@
 <template>
-  <div  class="columns  is-mobile">
+  <div class="columns  is-mobile">
     <div class="column is-1-desktop is-1-tablet is-2-mobile">
       <figure class="image">
         <img
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {formatDate as formatDate} from "./common.js"
+import { formatDate } from "./common.js";
 export default {
   props: {
     data: {
@@ -33,12 +33,12 @@ export default {
       required: true
     }
   },
-    methods:{
+  methods: {
     fd: function(dateStr) {
       return formatDate(dateStr);
-    },
+    }
   }
-}
+};
 </script>
 
 <style></style>

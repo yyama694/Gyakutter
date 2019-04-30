@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import {formatDate as formatDate} from "./common.js"
+import { formatDate } from "./common.js";
 export default {
   props: {
     data: {
@@ -32,10 +32,10 @@ export default {
       required: true
     }
   },
-  methods:{
+  methods: {
     fd: function(dateStr) {
       return formatDate(dateStr);
-    },
+    }
   }
 };
 </script>
