@@ -74,13 +74,17 @@
               <div class="column"></div>
             </div>
 
-            <div v-if="!d.retweeted_status">
-              <!-- 通常のツイート -->
-              <normal-tweet :data="d" />
+            <div v-if="d.retweeted_status">
+              <!-- リツイート -->
+              <retweet :data="d" />
+            </div>
+            <div v-else-if="d.quoted_status">
+              <!-- 引用リツイート -->
+              <quote-retweet :data="d" />
             </div>
             <div v-else>
-              <!-- 引用リツイート -->
-              <retweet :data="d" />
+              <!-- 通常のツイート -->
+              <normal-tweet :data="d" />
             </div>
           </div>
         </div>
@@ -95,11 +99,14 @@ import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
 import NormalTweet from "./NormalTweet.vue";
 import Retweet from "./Retweet.vue";
+import QuoteRetweet from "./QuoteRetweet.vue";
+
 export default {
   components: {
     HalfCircleSpinner,
     NormalTweet,
-    Retweet
+    Retweet,
+    QuoteRetweet
   },
   name: "Main",
   props: {
