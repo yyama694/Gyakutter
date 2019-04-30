@@ -74,11 +74,11 @@
               <div class="column"></div>
             </div>
 
-            <div class="columns  is-mobile" v-if="!d.retweeted_status">
+            <div v-if="!d.retweeted_status">
               <!-- 通常のツイート -->
               <normal-tweet :data="d" />
             </div>
-            <div class="columns  is-mobile" v-else>
+            <div v-else>
               <!-- 引用リツイート -->
               <retweet :data="d" />
             </div>

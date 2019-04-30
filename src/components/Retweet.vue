@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  class="columns  is-mobile">
     <div class="column is-1-desktop is-1-tablet is-2-mobile">
       <figure class="image">
         <img
