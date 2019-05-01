@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #eff7f6">
+  <div style="background-color: #eff7f6" @click="hiddenUserMenu">
     <div class="hero is-primary">
       <div class="hero-body">
         <div class="container">
@@ -15,82 +15,103 @@
     </div>
     <div class="container">
       <div class="main-area">
-      <div class="description">
-        ユーザ名を指定して Search ボタンを押してください。
-      </div>
-      <div class="columns">
-        <div class="column">
-          <input
-            id="search-text"
-            tabindex="1"
-            :value="user_id"
-            class="input"
-            type="text"
-            @keyup.enter="search"
-            placeholder="例）@TwitterJP"
-            ref="input_user_id"
-          />
+        <div class="description">
+          ユーザ名を指定して Search ボタンを押してください。
         </div>
-        <div class="column">
-          <a
-            ref="btn_search"
-            class="button is-success"
-            tabindex="2"
-            @click="search"
-            @keyup.enter="search"
-            >Search</a
-          >
-        </div>
-      </div>
-      <section class="section">
-        <div id="spinner" class="spinner">
-          <half-circle-spinner
-            :animation-duration="1000"
-            :size="60"
-            color="#00d1b2"
-          />
-        </div>
-        <div id="error-msg" class="error">
-          ツィートが取得できませんでした。
-        </div>
-        <div v-for="d in list" :key="d.id_str" class="box" style="margin-bottom: 1.0rem">
-          <div
-            v-if="d === 'ads'"
-            name="ad-space"
-            class="ads"
-            :key="'ads_' + d.id_str"
-          ></div>
-          <div v-else>
-            <div
-              class="columns is-mobile"
-              v-if="d.retweeted_status"
-              style="padding: 0; margin: 0;"
+        <div class="columns">
+          <div class="column">
+            <input
+              id="search-text"
+              tabindex="1"
+              :value="user_id"
+              class="input"
+              type="text"
+              @keyup.enter="search"
+              placeholder="例）@TwitterJP"
+              ref="input_user_id"
+            />
+          </div>
+          <div class="column">
+            <a
+              ref="btn_search"
+              class="button is-success"
+              tabindex="2"
+              @click="search"
+              @keyup.enter="search"
+              >Search</a
             >
-              <div
-                class="column is-1-desktop is-1-tablet is-2-mobile"
-                style="padding: 0;"
-              >
-                <font-awesome-icon icon="retweet" class="fa-pull-right" />
-              </div>
-              <div class="column"></div>
-            </div>
-
-            <div v-if="d.retweeted_status">
-              <!-- リツイート -->
-              <retweet :data="d" />
-            </div>
-            <div v-else-if="d.quoted_status">
-              <!-- 引用リツイート -->
-              <quote-retweet :data="d" />
-            </div>
-            <div v-else>
-              <!-- 通常のツイート -->
-              <normal-tweet :data="d" />
-            </div>
           </div>
         </div>
-        <a href="#" id="return-top">Top</a>
-      </section>
+        <section class="section">
+          <div id="spinner" class="spinner">
+            <half-circle-spinner
+              :animation-duration="1000"
+              :size="60"
+              color="#00d1b2"
+            />
+          </div>
+          <div id="error-msg" class="error">
+            ツィートが取得できませんでした。
+          </div>
+          <div
+            v-for="d in list"
+            :key="d.id_str"
+            class="box"
+            style="margin-bottom: 1.0rem"
+          >
+            <div
+              v-if="d === 'ads'"
+              name="ad-space"
+              class="ads"
+              :key="'ads_' + d.id_str"
+            ></div>
+            <div v-else>
+              <div
+                class="columns is-mobile"
+                v-if="d.retweeted_status"
+                style="padding: 0; margin: 0;"
+              >
+                <div
+                  class="column is-1-desktop is-1-tablet is-2-mobile"
+                  style="padding: 0;"
+                >
+                  <font-awesome-icon icon="retweet" class="fa-pull-right" />
+                </div>
+                <div class="column"></div>
+              </div>
+
+              <div v-if="d.retweeted_status">
+                <!-- リツイート -->
+                <retweet :data="d" @user="showUserMenu" />
+              </div>
+              <div v-else-if="d.quoted_status">
+                <!-- 引用リツイート -->
+                <quote-retweet :data="d" @user="showUserMenu" />
+              </div>
+              <div v-else>
+                <!-- 通常のツイート -->
+                <normal-tweet :data="d" @user="showUserMenu" />
+              </div>
+            </div>
+          </div>
+          <a href="#" id="return-top">Top</a>
+        </section>
+      </div>
+    </div>
+    <div id="user-menu" class="card" ref="userMenu">
+      <div
+        class="card-content"
+        style="padding: 1rem; background-color: #f4f7f7"
+      >
+        <div class="content">
+          <a
+            href="#"
+            @click="searchUser"
+            onclick="return false;"
+            class="is-size-7"
+            >このユーザを検索</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -117,7 +138,8 @@ export default {
   data: function() {
     return {
       user_id: "",
-      list: []
+      list: [],
+      pre_user_id: ""
     };
   },
   methods: {
@@ -147,17 +169,6 @@ export default {
         });
       self.$refs.btn_search.focus();
     },
-    formatDate: function(dateStr) {
-      const date = new Date(Date.parse(dateStr));
-      let format = "yyyy年MM月dd日 HH:mm:ss";
-      format = format.replace(/yyyy/g, date.getFullYear());
-      format = format.replace(/MM/g, ("0" + (date.getMonth() + 1)).slice(-2));
-      format = format.replace(/dd/g, ("0" + date.getDate()).slice(-2));
-      format = format.replace(/HH/g, ("0" + date.getHours()).slice(-2));
-      format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
-      format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
-      return format;
-    },
     getDisplayWidh: function() {
       return document.body.clientWidth;
     },
@@ -186,6 +197,30 @@ export default {
         },
         false
       );
+    },
+    showUserMenu: function(name, event) {
+      const posX = event.clientX;
+      const posY = event.clientY;
+      this.$refs.userMenu.style.left = posX + "px";
+      this.$refs.userMenu.style.top = posY + "px";
+      this.$refs.userMenu.classList.add("show");
+      this.pre_user_id = name;
+    },
+    hiddenUserMenu: function() {
+      if (this.$refs.userMenu.classList.contains("show")) {
+        this.$refs.userMenu.classList.remove("show");
+      }
+    },
+    searchUser: function() {
+      console.log("user_id mae:" + this.user_id);
+      console.log("pre_user_id mae:" + this.pre_user_id);
+
+      this.$refs.input_user_id.value = this.pre_user_id;
+
+      console.log("user_id ato:" + this.user_id);
+      console.log("pre_user_id ato:" + this.pre_user_id);
+
+      this.search();
     }
   },
   mounted() {
@@ -276,4 +311,10 @@ $box-padding: 0.6rem
   padding: 0;
 .main-area
   padding: 1rem 1rem 1rem 1rem;
+#user-menu
+  width: 150px;
+  position: fixed;
+  display: none;
+#user-menu.show
+  display: block;
 </style>

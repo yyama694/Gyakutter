@@ -13,7 +13,12 @@
       <span class="is-pulled-left has-text-black">
         {{ data.user.name
         }}<span class="has-text-grey is-size-7"
-          >@<a href="#">{{ data.user.screen_name }}</a></span
+          ><a
+            href="#"
+            @click.stop="$emit('user', data.user.screen_name, $event)"
+            onclick="return false;"
+            >@{{ data.user.screen_name }}</a
+          ></span
         >
       </span>
       <span class="is-pulled-right has-text-grey is-size-7">

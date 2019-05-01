@@ -13,7 +13,14 @@
       <span class="is-pulled-left has-text-black">
         {{ data.retweeted_status.user.name
         }}<span class="has-text-grey is-size-7"
-          >@<a href="#">{{ data.retweeted_status.user.screen_name }}</a></span
+          ><a
+            href="#"
+            @click.stop="
+              $emit('user', data.retweeted_status.user.screen_name, $event)
+            "
+            onclick="return false;"
+            >@{{ data.retweeted_status.user.screen_name }}</a
+          ></span
         >
       </span>
       <span class="is-pulled-right has-text-grey is-size-7">
