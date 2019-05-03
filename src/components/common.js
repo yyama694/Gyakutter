@@ -1,4 +1,5 @@
 export { formatDate };
+export { photoCount };
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -10,4 +11,17 @@ function formatDate(dateStr) {
   format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
   format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
   return format;
+}
+
+function photoCount(data) {
+  if (!data.extended_entities) {
+    return 0;
+  }
+  if (!data.extended_entities.media) {
+    return 0;
+  }
+  const medias = data.extended_entities.media;
+
+  console.log(medias.filter(d => d.type === "photo").length);
+  return medias.filter(d => d.type === "photo").length;
 }

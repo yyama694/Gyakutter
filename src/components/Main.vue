@@ -66,20 +66,6 @@
               :key="'ads_' + d.id_str"
             ></div>
             <div v-else>
-              <div
-                class="columns is-mobile"
-                v-if="d.retweeted_status"
-                style="padding: 0; margin: 0;"
-              >
-                <div
-                  class="column is-1-desktop is-1-tablet is-2-mobile"
-                  style="padding: 0;"
-                >
-                  <font-awesome-icon icon="retweet" class="fa-pull-right" />
-                </div>
-                <div class="column"></div>
-              </div>
-
               <div v-if="d.retweeted_status">
                 <!-- リツイート -->
                 <retweet :data="d" @user="showUserMenu" />
@@ -90,7 +76,7 @@
               </div>
               <div v-else>
                 <!-- 通常のツイート -->
-                <normal-tweet :data="d" @user="showUserMenu" />
+                <retweet :data="d" @user="showUserMenu" />
               </div>
             </div>
           </div>
@@ -120,14 +106,12 @@
 <script>
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
-import NormalTweet from "./NormalTweet.vue";
 import Retweet from "./Retweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 
 export default {
   components: {
     HalfCircleSpinner,
-    NormalTweet,
     Retweet,
     QuoteRetweet
   },
