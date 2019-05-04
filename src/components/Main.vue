@@ -68,7 +68,7 @@
             <div v-else>
               <div v-if="d.retweeted_status">
                 <!-- リツイート -->
-                <retweet :data="d" @user="showUserMenu" />
+                <tweet :data="d" @user="showUserMenu" />
               </div>
               <div v-else-if="d.quoted_status">
                 <!-- 引用リツイート -->
@@ -76,7 +76,7 @@
               </div>
               <div v-else>
                 <!-- 通常のツイート -->
-                <retweet :data="d" @user="showUserMenu" />
+                <tweet :data="d" @user="showUserMenu" />
               </div>
             </div>
           </div>
@@ -106,13 +106,13 @@
 <script>
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
-import Retweet from "./Retweet.vue";
+import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 
 export default {
   components: {
     HalfCircleSpinner,
-    Retweet,
+    Tweet,
     QuoteRetweet
   },
   name: "Main",
