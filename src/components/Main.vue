@@ -84,21 +84,14 @@
         </section>
       </div>
     </div>
-    <div id="user-menu" class="card" ref="userMenu">
-      <div
-        class="card-content"
-        style="padding: 1rem; background-color: #f4f7f7"
+    <div id="user-menu" class="card box" ref="userMenu" style="padding: 1rem; background-color: #f4f7f7">
+      <a
+        href="#"
+        @click="searchUser"
+        onclick="return false;"
+        class="is-size-6"
+        >このユーザを検索</a
       >
-        <div class="content">
-          <a
-            href="#"
-            @click="searchUser"
-            onclick="return false;"
-            class="is-size-7"
-            >このユーザを検索</a
-          >
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -297,7 +290,7 @@ $box-padding: 0.6rem
 .main-area
   padding: 1rem 1rem 1rem 1rem;
 #user-menu
-  width: 150px;
+  width: 170px;
   position: fixed;
   display: none;
 #user-menu.show
