@@ -208,6 +208,7 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener('scroll',this.hiddenUserMenu);
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
   },
@@ -260,9 +261,9 @@ $box-padding: 0.6rem
 .spinner
   width: 60px
   height: 60px
-  margin: auto
+  margin: 10px auto
   display: none
-  padding: 0
+  padding: 0px
 .iframe-ads-pc
   height: 100px;
   width: 100%;
