@@ -8,7 +8,7 @@
           </h1>
           <h2 class="subtitle">
             ログイン不要！ 時系列昇順で ツィート を表示する Twitter
-            クライアントです。{{ scrollCount }}
+            クライアントです。
           </h2>
         </div>
       </div>
@@ -118,8 +118,7 @@ export default {
     return {
       user_id: "",
       list: [],
-      pre_user_id: "",
-      scrollCount: 0
+      pre_user_id: ""
     };
   },
   methods: {
@@ -210,7 +209,7 @@ export default {
       this.$refs.input_user_id.value = this.pre_user_id;
       document.getElementById("spinner").style.display = "block";
       document.getElementById("return-top").click();
-      setTimeout(this.search, 500);
+      setTimeout(this.search, 300);
     }
   },
   mounted() {
