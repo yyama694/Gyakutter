@@ -159,7 +159,7 @@ export default {
           document.getElementById("error-msg").style.display = "block";
           document.getElementById("spinner").style.display = "none";
         });
-      self.$refs.btn_search.focus();
+      // self.$refs.btn_search.focus();
     },
     getDisplayWidh: function() {
       return document.body.clientWidth;
@@ -207,15 +207,10 @@ export default {
       }
     },
     searchUser: function() {
-      console.log("user_id mae:" + this.user_id);
-      console.log("pre_user_id mae:" + this.pre_user_id);
-
       this.$refs.input_user_id.value = this.pre_user_id;
-
-      console.log("user_id ato:" + this.user_id);
-      console.log("pre_user_id ato:" + this.pre_user_id);
-
-      this.search();
+      document.getElementById("spinner").style.display = "block";
+      document.getElementById("return-top").click();
+      setTimeout(this.search, 500);
     }
   },
   mounted() {
