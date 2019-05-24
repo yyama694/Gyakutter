@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="displayData">
     <div
       class="columns is-mobile"
       v-if="isRetweet"
@@ -39,14 +39,15 @@
           {{ fd(displayData.created_at) }}
         </span>
         <div v-if="_photoCount(displayData) === 2">
-          <div class="tweet-text">
-            {{
+          <div
+            class="tweet-text"
+            v-html="
               displayData.text.replace(
                 displayData.extended_entities.media[0].url,
-                ""
+                ''
               )
-            }}
-          </div>
+            "
+          ></div>
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px;"
@@ -64,14 +65,15 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 3">
-          <div class="tweet-text">
-            {{
+          <div
+            class="tweet-text"
+            v-html="
               displayData.text.replace(
                 displayData.extended_entities.media[0].url,
-                ""
+                ''
               )
-            }}
-          </div>
+            "
+          ></div>
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -90,14 +92,15 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 4">
-          <div class="tweet-text">
-            {{
+          <div
+            class="tweet-text"
+            v-html="
               displayData.text.replace(
                 displayData.extended_entities.media[0].url,
-                ""
+                ''
               )
-            }}
-          </div>
+            "
+          ></div>
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -121,21 +124,22 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData)">
-          <div class="tweet-text">
-            {{
+          <div
+            class="tweet-text"
+            v-html="
               displayData.text.replace(
                 displayData.extended_entities.media[0].url,
-                ""
+                ''
               )
-            }}
-          </div>
+            "
+          ></div>
           <img
             :src="displayData.extended_entities.media[0].media_url_https"
             style="width: 100%;max-width: 1024px;"
           />
         </div>
         <div v-else class="tweet-text">
-          {{ displayData.text }}
+          <component @user="showUserMenu" :data="data" :is="dynamicTweetText" />
         </div>
       </div>
     </div>
@@ -145,6 +149,7 @@
 <script>
 import { formatDate } from "./common.js";
 import { photoCount } from "./common.js";
+
 export default {
   props: {
     data: {
@@ -152,9 +157,27 @@ export default {
       required: true
     }
   },
+  // ↓が上手くいかない。たぶんthisが親コンポーネント指してるんじゃないの？
+  // data.text 中のaタグもvueのディレクティブとして処理させたいのに、
+  // @click とかがそのまま出力されてしまう。
+  // 参考：https://codeday.me/jp/qa/20190412/610231.html
+  // conputed に直接コンポーネントを記述すればできるのか？
+  computed: {
+    dynamicTweetText: function() {
+      return {
+        template: `<div>${this.hashTags()}</div>`,
+        props: {
+          data: {
+            type: Object,
+            required: true
+          }
+        }
+      };
+    }
+  },
   data: function() {
     return {
-      displayData: {},
+      displayData: undefined,
       isRetweet: false
     };
   },
@@ -164,6 +187,12 @@ export default {
     },
     _photoCount: function(data) {
       return photoCount(data);
+    },
+    hashTags: function() {
+      return this.displayData.text;
+    },
+    showUserMenu: function(name, event) {
+      this.$emit("user", name, event);
     }
   },
   mounted() {

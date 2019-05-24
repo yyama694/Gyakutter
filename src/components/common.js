@@ -1,5 +1,6 @@
 export { formatDate };
 export { photoCount };
+export { replaceMention };
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -21,7 +22,28 @@ function photoCount(data) {
     return 0;
   }
   const medias = data.extended_entities.media;
-
-  console.log(medias.filter(d => d.type === "photo").length);
   return medias.filter(d => d.type === "photo").length;
+}
+
+function replaceMention(list) {
+  console.log("in replace Meition:" + list);
+  list.forEach(data => {
+    const mentions = data.entities.user_mentions;
+    if (mentions.length === 0) {
+      return;
+    }
+    console.log("mentions の数：" + mentions.length);
+    mentions.forEach(m => {
+      console.log("mention:" + m.screen_name);
+      data.text = data.text.replace(
+        "@" + m.screen_name,
+        "<a href=\"#\" @click.stop=\"$emit('user','" +
+          m.screen_name +
+          '\', $event);" onclick="return false;">@' +
+          m.screen_name +
+          "</a>"
+      );
+    });
+  });
+  return list;
 }

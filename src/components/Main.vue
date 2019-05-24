@@ -84,12 +84,13 @@
         </section>
       </div>
     </div>
-    <div id="user-menu" class="card box" ref="userMenu" style="padding: 1rem; background-color: #f4f7f7">
-      <a
-        href="#"
-        @click="searchUser"
-        onclick="return false;"
-        class="is-size-6"
+    <div
+      id="user-menu"
+      class="card box"
+      ref="userMenu"
+      style="padding: 1rem; background-color: #f4f7f7"
+    >
+      <a href="#" @click="searchUser" onclick="return false;" class="is-size-6"
         >このユーザを検索</a
       >
     </div>
@@ -101,6 +102,7 @@ import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
 import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
+import { replaceMention } from "./common.js";
 
 export default {
   components: {
@@ -132,7 +134,7 @@ export default {
       const self = this;
       getTweetById(this.user_id)
         .then(function(result) {
-          self.list = result;
+          self.list = replaceMention(result);
           for (let i = 0; i < self.list.length; i++) {
             var random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");
@@ -184,6 +186,9 @@ export default {
       this.pre_user_id = name;
     },
     hiddenUserMenu: function() {
+      if (!this.$refs.userMenu) {
+        return;
+      }
       if (this.$refs.userMenu.classList.contains("show")) {
         this.$refs.userMenu.classList.remove("show");
       }
@@ -201,7 +206,7 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('scroll',this.hiddenUserMenu);
+    window.addEventListener("scroll", this.hiddenUserMenu);
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
   },
