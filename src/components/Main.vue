@@ -104,6 +104,9 @@ import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 import { replaceMention } from "./common.js";
 
+const displayNone = function(event) {
+  event.srcElement.style.visibility = "hidden";
+};
 export default {
   components: {
     HalfCircleSpinner,
@@ -127,11 +130,12 @@ export default {
         document.documentElement.scrollTop || document.body.scrollTop;
       const e = document.getElementById("return-top");
       if (scrollTop > 100) {
-        e.style.display = "inline";
+        e.removeEventListener("transitionend", displayNone);
         e.style.opacity = 0.8;
+        e.style.visibility = "visible";
       } else {
-        e.style.display = "none";
         e.style.opacity = 0.0;
+        e.addEventListener("transitionend", displayNone);
       }
     },
     search: function() {
@@ -290,8 +294,8 @@ $box-padding: 0.6rem
   right: 10px;
   text-align: center;
   width: 50px;
-  transition: 0.5s;
-  display: none;
+  transition: 1.0s;
+  visibility: hidden;
 #return-top:hover
   opacity: 0.5 !important;
 .error
