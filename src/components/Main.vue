@@ -8,7 +8,7 @@
           </h1>
           <h2 class="subtitle">
             ログイン不要！ 時系列昇順で ツィート を表示する Twitter
-            クライアントです。
+            クライアントです。{{ scrollCount }}
           </h2>
         </div>
       </div>
@@ -118,10 +118,23 @@ export default {
     return {
       user_id: "",
       list: [],
-      pre_user_id: ""
+      pre_user_id: "",
+      scrollCount: 0
     };
   },
   methods: {
+    scroll: function() {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      const e = document.getElementById("return-top");
+      if (scrollTop > 100) {
+        e.style.display = "inline";
+        e.style.opacity = 0.8;
+      } else {
+        e.style.display = "none";
+        e.style.opacity = 0.0;
+      }
+    },
     search: function() {
       document.getElementById("error-msg").style.display = "none";
       document.getElementById("spinner").style.display = "block";
@@ -207,6 +220,7 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.hiddenUserMenu);
+    window.addEventListener("scroll", this.scroll);
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
   },
@@ -269,7 +283,7 @@ $box-padding: 0.6rem
   height: 260px;
   width: 100%;
 #return-top
-  opacity: 0.8 ;
+  opacity: 0.0 ;
   background-color: #00d1b2;
   border-radius: 50%;
   bottom: 10px;
@@ -283,8 +297,9 @@ $box-padding: 0.6rem
   text-align: center;
   width: 50px;
   transition: 0.5s;
+  display: none;
 #return-top:hover
-  opacity: 0.5 ;
+  opacity: 0.5 !important;
 .error
   color: $danger;
   font-weight: bold;
