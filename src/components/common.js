@@ -133,16 +133,37 @@ function replaceUrl(list) {
         );
       });
     }
-    let QuoteUrls =
+    const quoteUrls =
       data.quoted_status &&
       data.quoted_status.entities &&
-      data.quoted_status.entities.url;
+      data.quoted_status.entities.urls;
 
-    if (QuoteUrls && QuoteUrls.length) {
-      urls.forEach(u => {
+    if (quoteUrls && quoteUrls.length) {
+      data.quoted_status.text = data.quoted_status.text.replace(
+        /\n/g,
+        "<br />"
+      );
+      quoteUrls.forEach(u => {
         data.quoted_status.text = data.quoted_status.text.replace(
           u.url,
-          '<a href="' + u.url + '">' + u.display_url + "</a>"
+          '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
+        );
+      });
+    }
+    const retweetUrls =
+      data.retweeted_status &&
+      data.retweeted_status.entities &&
+      data.retweeted_status.entities.urls;
+
+    if (retweetUrls && retweetUrls.length) {
+      data.retweeted_status.text = data.retweeted_status.text.replace(
+        /\n/g,
+        "<br />"
+      );
+      retweetUrls.forEach(u => {
+        data.retweeted_status.text = data.retweeted_status.text.replace(
+          u.url,
+          '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );
       });
     }
