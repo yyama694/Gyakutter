@@ -157,21 +157,10 @@ export default {
       required: true
     }
   },
-  // ↓が上手くいかない。たぶんthisが親コンポーネント指してるんじゃないの？
-  // data.text 中のaタグもvueのディレクティブとして処理させたいのに、
-  // @click とかがそのまま出力されてしまう。
-  // 参考：https://codeday.me/jp/qa/20190412/610231.html
-  // conputed に直接コンポーネントを記述すればできるのか？
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div>${this.hashTags()}</div>`,
-        props: {
-          data: {
-            type: Object,
-            required: true
-          }
-        }
+        template: `<div>${this.displayData.text}</div>`
       };
     }
   },
@@ -187,9 +176,6 @@ export default {
     },
     _photoCount: function(data) {
       return photoCount(data);
-    },
-    hashTags: function() {
-      return this.displayData.text;
     },
     showUserMenu: function(name, event) {
       this.$emit("user", name, event);
