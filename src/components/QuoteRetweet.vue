@@ -24,9 +24,7 @@
       <span class="is-pulled-right has-text-grey is-size-7">
         {{ fd(data.created_at) }}
       </span>
-      <div class="tweet-text">
-        {{ data.text.replace(data.entities.urls[0].url, "") }}
-      </div>
+      <component @user="showUserMenu" :is="dynamicTweetText" />
       <div class="box" style="margin: 10px">
         <tweet :data="data.quoted_status" @user="showUserMenu" />
       </div>
@@ -46,12 +44,26 @@ export default {
       required: true
     }
   },
+  computed: {
+    dynamicTweetText: function() {
+      return {
+        template: `<div class="tweet-text">${this.correctTweet()}</div>`
+      };
+    }
+  },
   methods: {
     fd: function(dateStr) {
       return formatDate(dateStr);
     },
     showUserMenu: function(name, event) {
       this.$emit("user", name, event);
+    },
+    correctTweet() {
+      if (this.data.entities.urls[0] && this.data.entities.urls[0].url) {
+        return this.data.text.replace(this.data.entities.urls[0].url, "");
+      } else {
+        return this.data.text;
+      }
     }
   }
 };

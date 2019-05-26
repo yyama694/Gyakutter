@@ -39,15 +39,7 @@
           {{ fd(displayData.created_at) }}
         </span>
         <div v-if="_photoCount(displayData) === 2">
-          <div
-            class="tweet-text"
-            v-html="
-              displayData.text.replace(
-                displayData.extended_entities.media[0].url,
-                ''
-              )
-            "
-          ></div>
+          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px;"
@@ -65,15 +57,7 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 3">
-          <div
-            class="tweet-text"
-            v-html="
-              displayData.text.replace(
-                displayData.extended_entities.media[0].url,
-                ''
-              )
-            "
-          ></div>
+          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -92,15 +76,7 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 4">
-          <div
-            class="tweet-text"
-            v-html="
-              displayData.text.replace(
-                displayData.extended_entities.media[0].url,
-                ''
-              )
-            "
-          ></div>
+          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -124,22 +100,14 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData)">
-          <div
-            class="tweet-text"
-            v-html="
-              displayData.text.replace(
-                displayData.extended_entities.media[0].url,
-                ''
-              )
-            "
-          ></div>
+          <component @user="showUserMenu" :is="dynamicTweetText" />
           <img
             :src="displayData.extended_entities.media[0].media_url_https"
             style="width: 100%;max-width: 1024px;"
           />
         </div>
         <div v-else class="tweet-text">
-          <component @user="showUserMenu" :data="data" :is="dynamicTweetText" />
+          <component @user="showUserMenu" :is="dynamicTweetText" />
         </div>
       </div>
     </div>
@@ -160,7 +128,7 @@ export default {
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div>${this.displayData.text}</div>`
+        template: `<div class="tweet-text">${this.correctTweet()}</div>`
       };
     }
   },
@@ -179,6 +147,19 @@ export default {
     },
     showUserMenu: function(name, event) {
       this.$emit("user", name, event);
+    },
+    correctTweet() {
+      if (
+        this.displayData.extended_entities &&
+        this.displayData.extended_entities.media[0]
+      ) {
+        return this.displayData.text.replace(
+          this.displayData.extended_entities.media[0].url,
+          ""
+        );
+      } else {
+        return this.displayData.text;
+      }
     }
   },
   mounted() {

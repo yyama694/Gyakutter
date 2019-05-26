@@ -29,21 +29,45 @@ function replaceMention(list) {
   console.log("in replace Meition:" + list);
   list.forEach(data => {
     const mentions = data.entities.user_mentions;
-    if (mentions.length === 0) {
-      return;
-    }
     console.log("mentions の数：" + mentions.length);
-    mentions.forEach(m => {
-      console.log("mention:" + m.screen_name);
-      data.text = data.text.replace(
-        "@" + m.screen_name,
-        "<a href=\"#\" @click.stop=\"$emit('user','" +
-          m.screen_name +
-          '\', $event);" onclick="return false;">@' +
-          m.screen_name +
-          "</a>"
-      );
-    });
+    if (mentions.length) {
+      console.count();
+
+      mentions.forEach(m => {
+        console.log("mention:" + m.screen_name);
+        data.text = data.text.replace(
+          "@" + m.screen_name,
+          "<a href=\"#\" @click.stop=\"$emit('user','" +
+            m.screen_name +
+            '\', $event);" onclick="return false;">@' +
+            m.screen_name +
+            "</a>"
+        );
+      });
+    }
+    console.count();
+    console.count();
+    let QuoteMentions =
+      data.quoted_status &&
+      data.quoted_status.entities &&
+      data.quoted_status.entities.user_mentions;
+
+    console.log(
+      "quote mentions の数：" + (QuoteMentions && QuoteMentions.length)
+    );
+    if (QuoteMentions && QuoteMentions.length) {
+      QuoteMentions.forEach(m => {
+        console.log("mention:" + m.screen_name);
+        data.quoted_status.text = data.quoted_status.text.replace(
+          "@" + m.screen_name,
+          "<a href=\"#\" @click.stop=\"$emit('user','" +
+            m.screen_name +
+            '\', $event);" onclick="return false;">@' +
+            m.screen_name +
+            "</a>"
+        );
+      });
+    }
   });
   return list;
 }
