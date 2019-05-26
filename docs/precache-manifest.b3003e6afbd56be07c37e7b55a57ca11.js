@@ -4,6 +4,10 @@ self.__precacheManifest = [
     "url": "robots.txt"
   },
   {
+    "revision": "4d0245b074489629d734ec2d961f4420",
+    "url": "og-image.png"
+  },
+  {
     "revision": "2327a1839f24ba541cc1",
     "url": "js/chunk-vendors.2a3635b8.js"
   },
@@ -12,7 +16,7 @@ self.__precacheManifest = [
     "url": "js/app.0fd42a6a.js"
   },
   {
-    "revision": "c40572afc6f53b8749d2b45350eef0dd",
+    "revision": "dff7987fdcc127eb7d63c1c02f23e50c",
     "url": "index.html"
   },
   {
