@@ -1,6 +1,8 @@
 export { formatDate };
 export { photoCount };
 export { replaceMention };
+export { replaceUrl };
+export { replaceExtraUrl };
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -25,6 +27,46 @@ function photoCount(data) {
   return medias.filter(d => d.type === "photo").length;
 }
 
+function replaceExtraUrl(list) {
+  list.forEach(data => {
+    console.log("修正前：" + data.text);
+    // メディアのURL
+    if (data.extended_entities && data.extended_entities.media[0]) {
+      data.text = data.text.replace(data.extended_entities.media[0].url, "");
+    }
+    if (
+      data.retweeted_status &&
+      data.retweeted_status.extended_entities &&
+      data.retweeted_status.extended_entities.media[0]
+    ) {
+      data.retweeted_status.text = data.retweeted_status.text.replace(
+        data.retweeted_status.extended_entities.media[0].url,
+        ""
+      );
+    }
+    if (
+      data.quoted_status &&
+      data.quoted_status.extended_entities &&
+      data.quoted_status.extended_entities.media[0]
+    ) {
+      data.quoted_status.text = data.quoted_status.text.replace(
+        data.quoted_status.extended_entities.media[0].url,
+        ""
+      );
+    }
+
+    // 引用リツイートのURL
+    if (
+      data.quoted_status &&
+      data.entities.urls[0] &&
+      data.entities.urls[0].url
+    ) {
+      data.text = data.text.replace(data.entities.urls[0].url, "");
+    }
+    console.log("修正後：" + data.text);
+  });
+  return list;
+}
 function replaceMention(list) {
   list.forEach(data => {
     const mentions = data.entities.user_mentions;
@@ -41,7 +83,7 @@ function replaceMention(list) {
         );
       });
     }
-    let QuoteMentions =
+    const QuoteMentions =
       data.quoted_status &&
       data.quoted_status.entities &&
       data.quoted_status.entities.user_mentions;
@@ -55,6 +97,52 @@ function replaceMention(list) {
             '\', $event);" onclick="return false;">@' +
             m.screen_name +
             "</a>"
+        );
+      });
+    }
+
+    const retweetMentions =
+      data.retweeted_status &&
+      data.retweeted_status.entities &&
+      data.retweeted_status.entities.user_mentions;
+    if (retweetMentions && retweetMentions.length) {
+      retweetMentions.forEach(m => {
+        data.retweeted_status.text = data.retweeted_status.text.replace(
+          "@" + m.screen_name,
+          "<a href=\"#\" @click.stop=\"$emit('user','" +
+            m.screen_name +
+            '\', $event);" onclick="return false;">@' +
+            m.screen_name +
+            "</a>"
+        );
+      });
+    }
+  });
+  return list;
+}
+
+function replaceUrl(list) {
+  list.forEach(data => {
+    data.text = data.text.replace(/\n/g, "<br />");
+    const urls = data.entities.urls;
+    if (urls.length) {
+      urls.forEach(u => {
+        data.text = data.text.replace(
+          u.url,
+          '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
+        );
+      });
+    }
+    let QuoteUrls =
+      data.quoted_status &&
+      data.quoted_status.entities &&
+      data.quoted_status.entities.url;
+
+    if (QuoteUrls && QuoteUrls.length) {
+      urls.forEach(u => {
+        data.quoted_status.text = data.quoted_status.text.replace(
+          u.url,
+          '<a href="' + u.url + '">' + u.display_url + "</a>"
         );
       });
     }

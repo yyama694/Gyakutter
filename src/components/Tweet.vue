@@ -106,7 +106,7 @@
             style="width: 100%;max-width: 1024px;"
           />
         </div>
-        <div v-else class="tweet-text">
+        <div v-else>
           <component @user="showUserMenu" :is="dynamicTweetText" />
         </div>
       </div>
@@ -128,7 +128,7 @@ export default {
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div class="tweet-text"><p>${this.correctTweet()}</p></div>`
+        template: `<div class="tweet-text">${this.displayData.text}</div>`
       };
     }
   },
@@ -147,19 +147,6 @@ export default {
     },
     showUserMenu: function(name, event) {
       this.$emit("user", name, event);
-    },
-    correctTweet() {
-      if (
-        this.displayData.extended_entities &&
-        this.displayData.extended_entities.media[0]
-      ) {
-        return this.displayData.text.replace(
-          this.displayData.extended_entities.media[0].url,
-          ""
-        );
-      } else {
-        return this.displayData.text;
-      }
     }
   },
   mounted() {

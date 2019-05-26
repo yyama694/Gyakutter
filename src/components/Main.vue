@@ -103,6 +103,8 @@ import { HalfCircleSpinner } from "epic-spinners";
 import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 import { replaceMention } from "./common.js";
+import { replaceUrl } from "./common.js";
+import { replaceExtraUrl } from "./common.js";
 
 const displayNone = function(event) {
   event.srcElement.style.visibility = "hidden";
@@ -150,7 +152,13 @@ export default {
       const self = this;
       getTweetById(this.user_id)
         .then(function(result) {
-          self.list = replaceMention(result);
+          self.list = replaceExtraUrl(result);
+          console.count();
+          self.list = replaceMention(self.list);
+          console.count();
+          self.list = replaceUrl(self.list);
+          console.count();
+
           for (let i = 0; i < self.list.length; i++) {
             var random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");

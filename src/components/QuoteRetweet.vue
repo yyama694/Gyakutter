@@ -47,7 +47,7 @@ export default {
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div class="tweet-text">${this.correctTweet()}</div>`
+        template: `<div class="tweet-text">${this.data.text}</div>`
       };
     }
   },
@@ -57,13 +57,6 @@ export default {
     },
     showUserMenu: function(name, event) {
       this.$emit("user", name, event);
-    },
-    correctTweet() {
-      if (this.data.entities.urls[0] && this.data.entities.urls[0].url) {
-        return this.data.text.replace(this.data.entities.urls[0].url, "");
-      } else {
-        return this.data.text;
-      }
     }
   }
 };
