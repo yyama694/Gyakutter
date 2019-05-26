@@ -26,13 +26,9 @@ function photoCount(data) {
 }
 
 function replaceMention(list) {
-  console.log("in replace Meition:" + list);
   list.forEach(data => {
     const mentions = data.entities.user_mentions;
-    console.log("mentions の数：" + mentions.length);
     if (mentions.length) {
-      console.count();
-
       mentions.forEach(m => {
         console.log("mention:" + m.screen_name);
         data.text = data.text.replace(
@@ -45,19 +41,13 @@ function replaceMention(list) {
         );
       });
     }
-    console.count();
-    console.count();
     let QuoteMentions =
       data.quoted_status &&
       data.quoted_status.entities &&
       data.quoted_status.entities.user_mentions;
 
-    console.log(
-      "quote mentions の数：" + (QuoteMentions && QuoteMentions.length)
-    );
     if (QuoteMentions && QuoteMentions.length) {
       QuoteMentions.forEach(m => {
-        console.log("mention:" + m.screen_name);
         data.quoted_status.text = data.quoted_status.text.replace(
           "@" + m.screen_name,
           "<a href=\"#\" @click.stop=\"$emit('user','" +

@@ -254,6 +254,7 @@ $box-padding: 0.6rem
 
 .tweet-text
   clear: both;
+  white-space: pre-wrap;
 .container
   font-family : "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
 .description

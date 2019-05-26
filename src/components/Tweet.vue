@@ -128,7 +128,7 @@ export default {
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div class="tweet-text">${this.correctTweet()}</div>`
+        template: `<div class="tweet-text"><p>${this.correctTweet()}</p></div>`
       };
     }
   },
