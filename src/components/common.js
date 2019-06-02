@@ -3,6 +3,7 @@ export { photoCount };
 export { replaceMention };
 export { replaceUrl };
 export { replaceExtraUrl };
+import getHttpContents from '../api/HttpClient';
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -29,7 +30,6 @@ function photoCount(data) {
 
 function replaceExtraUrl(list) {
   list.forEach(data => {
-    console.log("修正前：" + data.text);
     // メディアのURL
     if (data.extended_entities && data.extended_entities.media[0]) {
       data.text = data.text.replace(data.extended_entities.media[0].url, "");
@@ -63,7 +63,6 @@ function replaceExtraUrl(list) {
     ) {
       data.text = data.text.replace(data.entities.urls[0].url, "");
     }
-    console.log("修正後：" + data.text);
   });
   return list;
 }
@@ -72,7 +71,6 @@ function replaceMention(list) {
     const mentions = data.entities.user_mentions;
     if (mentions.length) {
       mentions.forEach(m => {
-        console.log("mention:" + m.screen_name);
         data.text = data.text.replace(
           "@" + m.screen_name,
           "<a href=\"#\" @click.stop=\"$emit('user','" +
@@ -126,8 +124,15 @@ function replaceUrl(list) {
     data.text = data.text.replace(/\n/g, "<br />");
     const urls = data.entities.urls;
     if (urls.length) {
-      urls.forEach(u => {
-        data.text = data.text.replace(
+      urls.forEach((u, i) => {
+      if (i+1 === urls.length ) {
+        console.log(u.expanded_url  + " にアクセスします。");
+        getHttpContents(u.expanded_url).then(d => {
+          console.log("取得したデータのデータ：" + JSON.stringify(d.data));
+          console.log(typeof d);
+        });
+      }
+      data.text = data.text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );
