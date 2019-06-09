@@ -3,7 +3,7 @@ export { photoCount };
 export { replaceMention };
 export { replaceUrl };
 export { replaceExtraUrl };
-import getHttpContents from '../api/HttpClient';
+import getHttpContents from "../api/HttpClient";
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -125,14 +125,14 @@ function replaceUrl(list) {
     const urls = data.entities.urls;
     if (urls.length) {
       urls.forEach((u, i) => {
-      if (i+1 === urls.length ) {
-        console.log(u.expanded_url  + " にアクセスします。");
-        getHttpContents(u.expanded_url).then(d => {
-          console.log("取得したデータのデータ：" + JSON.stringify(d.data));
-          console.log(typeof d);
-        });
-      }
-      data.text = data.text.replace(
+        if (i + 1 === urls.length) {
+          console.log(u.expanded_url + " にアクセスします。");
+          getHttpContents(u.expanded_url).then(d => {
+            console.log("取得したデータのデータ：" + JSON.stringify(d.data));
+            console.log(typeof d);
+          });
+        }
+        data.text = data.text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );

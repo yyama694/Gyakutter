@@ -39,57 +39,33 @@
           {{ fd(displayData.created_at) }}
         </span>
         <component @user="showUserMenu" :is="dynamicTweetText" />
-        <div v-if="_photoCount === 2" class="columns is-mobile is-marginless"
-            style="width: 100%;max-width: 1024px;">
-          <div class="column is-marginless is-paddingless">
-            <img
-              :src="displayData.extended_entities.media[0].media_url_https"
-            />
-          </div>
-          <div class="column is-marginless is-paddingless">
-            <img
-              :src="displayData.extended_entities.media[1].media_url_https"
-            />
-          </div>
-        </div>
-        <div v-else-if="_photoCount === 3" class="columns is-mobile is-marginless"
-            style="width: 100%;max-width: 1024px; line-height: 0;">
+        <div
+          v-if="lPhotoCount > 0"
+          class="columns is-mobile is-marginless"
+          style="width: 100%;max-width: 1024px; line-height: 0;"
+        >
           <div class="column is-marginless is-paddingless">
             <img
               :src="displayData.extended_entities.media[0].media_url_https"
             /><br />
             <img
+              v-if="lPhotoCount >= 3"
               :src="displayData.extended_entities.media[2].media_url_https"
             />
           </div>
-          <div class="column is-marginless is-paddingless">
-            <img :src="data.extended_entities.media[1].media_url_https" />
-          </div>
-        </div>
-        <div v-else-if="_photoCount === 4" class="columns is-mobile is-marginless"
-            style="width: 100%;max-width: 1024px; line-height: 0;">
-          <div class="column is-marginless is-paddingless">
+          <div
+            class="column is-marginless is-paddingless"
+            v-if="lPhotoCount >= 2"
+          >
             <img
-              :src="displayData.extended_entities.media[0].media_url_https"
-            /><br />
-            <img
-              :src="displayData.extended_entities.media[2].media_url_https"
-            />
-          </div>
-          <div class="column is-marginless is-paddingless">
-            <img
+              v-if="lPhotoCount >= 2"
               :src="displayData.extended_entities.media[1].media_url_https"
             /><br />
             <img
+              v-if="lPhotoCount >= 4"
               :src="displayData.extended_entities.media[3].media_url_https"
             />
           </div>
-        </div>
-        <div v-else-if="_photoCount">
-          <img
-            :src="displayData.extended_entities.media[0].media_url_https"
-            style="width: 100%;max-width: 1024px;"
-          />
         </div>
       </div>
     </div>
@@ -117,7 +93,7 @@ export default {
   data: function() {
     return {
       displayData: undefined,
-      _photoCount: 0
+      lPhotoCount: 0
     };
   },
   methods: {
@@ -134,7 +110,7 @@ export default {
     } else {
       this.displayData = this.data;
     }
-    this._photoCount = photoCount(this.data)
+    this.lPhotoCount = photoCount(this.data);
   }
 };
 </script>
