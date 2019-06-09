@@ -1,88 +1,84 @@
 <template>
   <div style="background-color: #eff7f6" @click="hiddenUserMenu">
-    <div class="hero is-primary">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            Gyakutter
-          </h1>
-          <h2 class="subtitle">
-            ログイン不要！ 時系列昇順で ツィート を表示する Twitter
-            クライアントです。
-          </h2>
-        </div>
+    <div class="hero is-primary hero-body">
+      <div class="container">
+        <h1 class="title">
+          Gyakutter
+        </h1>
+        <h2 class="subtitle">
+          ログイン不要！ 時系列昇順で ツィート を表示する Twitter
+          クライアントです。
+        </h2>
       </div>
     </div>
-    <div class="container">
-      <div class="main-area">
-        <div class="description">
-          ユーザ名を指定して Search ボタンを押してください。
+    <div class="container main-area">
+      <div class="description">
+        ユーザ名を指定して Search ボタンを押してください。
+      </div>
+      <div class="columns">
+        <div class="column">
+          <input
+            id="search-text"
+            tabindex="1"
+            :value="user_id"
+            class="input"
+            type="text"
+            @keyup.enter="search"
+            placeholder="例）@TwitterJP"
+            ref="input_user_id"
+          />
         </div>
-        <div class="columns">
-          <div class="column">
-            <input
-              id="search-text"
-              tabindex="1"
-              :value="user_id"
-              class="input"
-              type="text"
-              @keyup.enter="search"
-              placeholder="例）@TwitterJP"
-              ref="input_user_id"
-            />
-          </div>
-          <div class="column">
-            <a
-              ref="btn_search"
-              class="button is-success"
-              tabindex="2"
-              @click="search"
-              @keyup.enter="search"
-              >Search</a
-            >
-          </div>
-        </div>
-        <section class="section">
-          <div id="spinner" class="spinner">
-            <half-circle-spinner
-              :animation-duration="1000"
-              :size="60"
-              color="#00d1b2"
-            />
-          </div>
-          <div id="error-msg" class="error">
-            ツィートが取得できませんでした。
-          </div>
-          <div
-            v-for="d in list"
-            :key="d.id_str"
-            class="box"
-            style="margin-bottom: 1.0rem"
+        <div class="column">
+          <a
+            ref="btn_search"
+            class="button is-success"
+            tabindex="2"
+            @click="search"
+            @keyup.enter="search"
+            >Search</a
           >
-            <div
-              v-if="d === 'ads'"
-              name="ad-space"
-              class="ads"
-              :key="'ads_' + d.id_str"
-            ></div>
+        </div>
+      </div>
+      <section class="section">
+        <div id="spinner" class="spinner">
+          <half-circle-spinner
+            :animation-duration="1000"
+            :size="60"
+            color="#00d1b2"
+          />
+        </div>
+        <div id="error-msg" class="error">
+          ツィートが取得できませんでした。
+        </div>
+        <div
+          v-for="d in list"
+          :key="d.id_str"
+          class="box"
+          style="margin-bottom: 1.0rem"
+        >
+          <div
+            v-if="d === 'ads'"
+            name="ad-space"
+            class="ads"
+            :key="'ads_' + d.id_str"
+          ></div>
+          <div v-else>
+            <div v-if="d.retweeted_status">
+              <!-- リツイート -->
+              <tweet :data="d" @user="showUserMenu" />
+            </div>
+            <div v-else-if="d.quoted_status">
+              <!-- 引用リツイート -->
+              <quote-retweet :data="d" @user="showUserMenu" />
+            </div>
             <div v-else>
-              <div v-if="d.retweeted_status">
-                <!-- リツイート -->
-                <tweet :data="d" @user="showUserMenu" />
-              </div>
-              <div v-else-if="d.quoted_status">
-                <!-- 引用リツイート -->
-                <quote-retweet :data="d" @user="showUserMenu" />
-              </div>
-              <div v-else>
-                <!-- 通常のツイート -->
-                <tweet :data="d" @user="showUserMenu" />
-              </div>
+              <!-- 通常のツイート -->
+              <tweet :data="d" @user="showUserMenu" />
             </div>
           </div>
-          <a href="#" id="return-top">Top</a>
-        </section>
-      </div>
+        </div>
+        <a href="#" id="return-top">Top</a>
+      </section>
     </div>
     <div
       id="user-menu"
