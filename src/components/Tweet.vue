@@ -1,8 +1,8 @@
 <template>
-  <div v-if="displayData">
+  <div>
     <div
       class="columns is-mobile"
-      v-if="isRetweet"
+      v-if="data.retweeted_status"
       style="padding: 0; margin: 0;"
     >
       <div
@@ -38,8 +38,8 @@
         <span class="is-pulled-right has-text-grey is-size-7">
           {{ fd(displayData.created_at) }}
         </span>
+        <component @user="showUserMenu" :is="dynamicTweetText" />
         <div v-if="_photoCount(displayData) === 2">
-          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px;"
@@ -57,7 +57,6 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 3">
-          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -76,7 +75,6 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData) === 4">
-          <component @user="showUserMenu" :is="dynamicTweetText" />
           <div
             class="columns is-mobile is-marginless"
             style="width: 100%;max-width: 1024px; line-height: 0;"
@@ -100,14 +98,10 @@
           </div>
         </div>
         <div v-else-if="_photoCount(displayData)">
-          <component @user="showUserMenu" :is="dynamicTweetText" />
           <img
             :src="displayData.extended_entities.media[0].media_url_https"
             style="width: 100%;max-width: 1024px;"
           />
-        </div>
-        <div v-else>
-          <component @user="showUserMenu" :is="dynamicTweetText" />
         </div>
       </div>
     </div>
@@ -134,8 +128,7 @@ export default {
   },
   data: function() {
     return {
-      displayData: undefined,
-      isRetweet: false
+      displayData: undefined
     };
   },
   methods: {
@@ -152,10 +145,8 @@ export default {
   mounted() {
     if (this.data.retweeted_status) {
       this.displayData = this.data.retweeted_status;
-      this.isRetweet = true;
     } else {
       this.displayData = this.data;
-      this.isRetweet = false;
     }
   }
 };
