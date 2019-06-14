@@ -239,6 +239,9 @@ export default {
       '<script src="//adm.shinobi.jp/s/ed15fe210d870b401447c2ae7992e5a7"><\/script>'; //eslint-disable-line
     const tags = document.getElementsByName("ad-space");
     tags.forEach(element => {
+      if (element.children.length > 0) {
+        return;
+      }
       const iframe = document.createElement("iframe");
       iframe.setAttribute("scrolling", "no");
       iframe.setAttribute("frameborder", "0");
