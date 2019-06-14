@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="displayData">
     <div
       class="columns is-mobile"
       v-if="data.retweeted_status"
@@ -39,8 +39,25 @@
           {{ fd(displayData.created_at) }}
         </span>
         <component @user="showUserMenu" :is="dynamicTweetText" />
+        <div v-if="displayData.og" class="box" style="margin: 10px;">
+          <a :href="displayData.og.og_url" class="columns" target="_blank">
+            <img
+              :src="displayData.og.og_image"
+              class="column is-2"
+              style="max-height:120px;"
+            />
+            <div class="column">
+              <div>
+                {{ displayData.og.og_title }}
+              </div>
+              <div>
+                {{ displayData.og.og_description }}
+              </div>
+            </div>
+          </a>
+        </div>
         <div
-          v-if="lPhotoCount > 0"
+          v-else-if="lPhotoCount > 0"
           class="columns is-mobile is-marginless"
           style="width: 100%;max-width: 1024px; line-height: 0;"
         >

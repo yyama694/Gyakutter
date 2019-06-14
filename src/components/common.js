@@ -3,7 +3,7 @@ export { photoCount };
 export { replaceMention };
 export { replaceUrl };
 export { replaceExtraUrl };
-import getHttpContents from "../api/HttpClient";
+import getOg from "../api/HttpClient";
 
 function formatDate(dateStr) {
   const date = new Date(Date.parse(dateStr));
@@ -28,6 +28,7 @@ function photoCount(data) {
   return medias.filter(d => d.type === "photo").length;
 }
 
+// ツイート中の余計なURLを削除
 function replaceExtraUrl(list) {
   list.forEach(data => {
     // メディアのURL
@@ -119,7 +120,8 @@ function replaceMention(list) {
   return list;
 }
 
-function replaceUrl(list) {
+function replaceUrl(list, vm) {
+  console.log(vm);
   list.forEach(data => {
     data.text = data.text.replace(/\n/g, "<br />");
     const urls = data.entities.urls;
@@ -127,9 +129,12 @@ function replaceUrl(list) {
       urls.forEach((u, i) => {
         if (i + 1 === urls.length) {
           console.log(u.expanded_url + " にアクセスします。");
-          getHttpContents(u.expanded_url).then(d => {
-            console.log("取得したデータのデータ：" + JSON.stringify(d.data));
-            console.log(typeof d);
+          getOg(u.expanded_url).then(d => {
+            console.log(vm);
+            if (d.og_image && d.og_title && d.og_description) {
+              vm.$set(data, "og", d);
+            }
+            console.log("data" + JSON.stringify(data));
           });
         }
         data.text = data.text.replace(

@@ -148,18 +148,22 @@ export default {
       const self = this;
       getTweetById(this.user_id)
         .then(function(result) {
+          console.count();
           self.list = replaceExtraUrl(result);
           console.count();
+
           self.list = replaceMention(self.list);
           console.count();
-          self.list = replaceUrl(self.list);
-          console.count();
 
+          self.list = replaceUrl(self.list, self);
+          console.count();
           for (let i = 0; i < self.list.length; i++) {
             var random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");
           }
+          console.count();
           document.getElementById("spinner").style.display = "none";
+          console.count();
         })
         .catch(() => {
           self.list = [];
@@ -167,6 +171,7 @@ export default {
           document.getElementById("spinner").style.display = "none";
         });
       // self.$refs.btn_search.focus();
+      console.count();
     },
     getDisplayWidh: function() {
       return document.body.clientWidth;
