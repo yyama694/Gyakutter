@@ -290,9 +290,15 @@ $box-padding: 0.6rem
 .iframe-ads-pc
   height: 100px;
   width: 100%;
+  margin: auto;
+  display: block;
+  width: 744px;
+  height: 106px;
 .iframe-ads-mobile
-  height: 260px;
-  width: 100%;
+  height: 266px;
+  width: 316px
+  margin: auto;
+  display: block;
 #return-top
   opacity: 0.0 ;
   background-color: #00d1b2;
