@@ -128,13 +128,10 @@ function replaceUrl(list, vm) {
     if (urls.length) {
       urls.forEach((u, i) => {
         if (i + 1 === urls.length) {
-          console.log(u.expanded_url + " にアクセスします。");
           getOg(u.expanded_url).then(d => {
-            console.log(vm);
             if (d.og_image && d.og_title && d.og_description) {
               vm.$set(data, "og", d);
             }
-            console.log("data" + JSON.stringify(data));
           });
         }
         data.text = data.text.replace(
@@ -153,7 +150,14 @@ function replaceUrl(list, vm) {
         /\n/g,
         "<br />"
       );
-      quoteUrls.forEach(u => {
+      quoteUrls.forEach((u, i) => {
+        if (i + 1 === quoteUrls.length) {
+          getOg(u.expanded_url).then(d => {
+            if (d.og_image && d.og_title && d.og_description) {
+              vm.$set(data.quoted_status, "og", d);
+            }
+          });
+        }
         data.quoted_status.text = data.quoted_status.text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
@@ -170,7 +174,14 @@ function replaceUrl(list, vm) {
         /\n/g,
         "<br />"
       );
-      retweetUrls.forEach(u => {
+      retweetUrls.forEach((u, i) => {
+        if (i + 1 === retweetUrls.length) {
+          getOg(u.expanded_url).then(d => {
+            if (d.og_image && d.og_title && d.og_description) {
+              vm.$set(data.retweeted_status, "og", d);
+            }
+          });
+        }
         data.retweeted_status.text = data.retweeted_status.text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"

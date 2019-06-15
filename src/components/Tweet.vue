@@ -40,7 +40,11 @@
         </span>
         <component @user="showUserMenu" :is="dynamicTweetText" />
         <div v-if="displayData.og" class="box" style="margin: 10px;">
-          <a :href="displayData.og.og_url" class="columns" target="_blank">
+          <a
+            :href="displayData.og.og_url"
+            class="columns url-img"
+            target="_blank"
+          >
             <img
               :src="displayData.og.og_image"
               class="column is-2"
@@ -132,4 +136,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+a:link.url-img {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+a:visited.url-img {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+a:hover.url-img {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+a:active.url-img {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+</style>
