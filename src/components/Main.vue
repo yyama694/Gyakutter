@@ -26,7 +26,11 @@
             @keyup.enter="search"
             placeholder="例）@TwitterJP"
             ref="input_user_id"
+            list="user-list"
           />
+          <datalist id="user-list">
+            <option v-for="u in usersCandidate" :key="u" :value="u" />
+          </datalist>
         </div>
         <div class="column">
           <a
@@ -119,7 +123,8 @@ export default {
     return {
       user_id: "",
       list: [],
-      pre_user_id: ""
+      pre_user_id: "",
+      usersCandidate: []
     };
   },
   methods: {
@@ -148,22 +153,30 @@ export default {
       const self = this;
       getTweetById(this.user_id)
         .then(function(result) {
-          console.count();
           self.list = replaceExtraUrl(result);
-          console.count();
-
           self.list = replaceMention(self.list);
-          console.count();
-
           self.list = replaceUrl(self.list, self);
-          console.count();
           for (let i = 0; i < self.list.length; i++) {
-            var random = Math.floor(Math.random() * 20);
+            const random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");
           }
-          console.count();
           document.getElementById("spinner").style.display = "none";
-          console.count();
+          // Cookieに格納
+          const arr = decodeURIComponent(document.cookie)
+            .split(";")
+            .filter(s => s.trim().startsWith("users="))[0]
+            .substr(7)
+            .split(",");
+          const arr2 = arr.filter(s => !s.startsWith(self.user_id));
+          arr2.unshift(self.user_id);
+          const count = new Date("2037/12/31 23:59");
+          document.cookie =
+            "users=" +
+            encodeURIComponent(arr2.join(",")) +
+            "; expires=" +
+            count.toUTCString() +
+            ";";
+          self.usersCandidate = arr2;
         })
         .catch(() => {
           self.list = [];
@@ -171,7 +184,6 @@ export default {
           document.getElementById("spinner").style.display = "none";
         });
       // self.$refs.btn_search.focus();
-      console.count();
     },
     getDisplayWidh: function() {
       return document.body.clientWidth;
@@ -230,6 +242,11 @@ export default {
     window.addEventListener("scroll", this.scroll);
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
+    const cookiesArray = decodeURIComponent(document.cookie).split(";");
+    const usersList = cookiesArray
+      .filter(s => s.trim().startsWith("users="))[0]
+      .substr(7);
+    this.usersCandidate = usersList.split(",");
   },
   updated() {
     const windowWidh = this.getDisplayWidh();
