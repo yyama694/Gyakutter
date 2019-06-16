@@ -169,6 +169,7 @@ export default {
             .split(",");
           const arr2 = arr.filter(s => !s.startsWith(self.user_id));
           arr2.unshift(self.user_id);
+          arr2.splice(25);
           const count = new Date("2037/12/31 23:59");
           document.cookie =
             "users=" +
