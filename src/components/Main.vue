@@ -162,12 +162,9 @@ export default {
           }
           document.getElementById("spinner").style.display = "none";
           // Cookieに格納
-          const arr = decodeURIComponent(document.cookie)
-            .split(";")
-            .filter(s => s.trim().startsWith("users="))[0]
-            .substr(7)
-            .split(",");
-          const arr2 = arr.filter(s => !s.startsWith(self.user_id));
+          const arr2 = self
+            .getUserListFromCookie()
+            .filter(s => !(s === self.user_id));
           arr2.unshift(self.user_id);
           arr2.splice(25);
           const count = new Date("2037/12/31 23:59");
@@ -236,6 +233,15 @@ export default {
       document.getElementById("spinner").style.display = "block";
       document.getElementById("return-top").click();
       setTimeout(this.search, 300);
+    },
+    getUserListFromCookie: function() {
+      const cookie = decodeURIComponent(document.cookie);
+      if (!cookie) return [];
+      const users = cookie
+        .split(";")
+        .filter(s => s.trim().startsWith("users="));
+      if (!users[0]) return [];
+      return users[0].substr(7).split(",");
     }
   },
   mounted() {
@@ -243,11 +249,7 @@ export default {
     window.addEventListener("scroll", this.scroll);
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
-    const cookiesArray = decodeURIComponent(document.cookie).split(";");
-    const usersList = cookiesArray
-      .filter(s => s.trim().startsWith("users="))[0]
-      .substr(7);
-    this.usersCandidate = usersList.split(",");
+    this.usersCandidate = this.getUserListFromCookie();
   },
   updated() {
     const windowWidh = this.getDisplayWidh();
