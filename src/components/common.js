@@ -124,15 +124,25 @@ function replaceUrl(list, vm) {
   console.log(vm);
   list.forEach(data => {
     data.text = data.text.replace(/\n/g, "<br />");
-    const urls = data.entities.urls;
+    const urls = data.entities.urls.reverse();
+    let acquired = false;
     if (urls.length) {
-      urls.forEach((u, i) => {
-        if (i + 1 === urls.length) {
+      urls.forEach(u => {
+        // expanded_urlが「https://twitter.com」で始まり、文字列IDで終わる場合、
+        // 同じメッセージを表示してしまうので飛ばす。
+        if (
+          u.expanded_url.startsWith("https://twitter.com") &&
+          u.expanded_url.endsWith(data.id_str)
+        ) {
+          return;
+        }
+        if (!acquired) {
           getOg(u.expanded_url).then(d => {
             if (d.og_image && d.og_title && d.og_description) {
               vm.$set(data, "og", d);
             }
           });
+          acquired = true;
         }
         data.text = data.text.replace(
           u.url,
@@ -143,20 +153,31 @@ function replaceUrl(list, vm) {
     const quoteUrls =
       data.quoted_status &&
       data.quoted_status.entities &&
-      data.quoted_status.entities.urls;
+      data.quoted_status.entities.urls.reverse();
 
     if (quoteUrls && quoteUrls.length) {
       data.quoted_status.text = data.quoted_status.text.replace(
         /\n/g,
         "<br />"
       );
-      quoteUrls.forEach((u, i) => {
-        if (i + 1 === quoteUrls.length) {
+      acquired = false;
+      quoteUrls.forEach(u => {
+        // expanded_urlが「https://twitter.com」で始まり、文字列IDで終わる場合、
+        // 同じメッセージを表示してしまうので飛ばす。
+        if (
+          u.expanded_url.startsWith("https://twitter.com") &&
+          u.expanded_url.endsWith(data.quoted_status_id_str)
+        ) {
+          return;
+        }
+
+        if (!acquired) {
           getOg(u.expanded_url).then(d => {
             if (d.og_image && d.og_title && d.og_description) {
               vm.$set(data.quoted_status, "og", d);
             }
           });
+          acquired = true;
         }
         data.quoted_status.text = data.quoted_status.text.replace(
           u.url,
@@ -167,20 +188,31 @@ function replaceUrl(list, vm) {
     const retweetUrls =
       data.retweeted_status &&
       data.retweeted_status.entities &&
-      data.retweeted_status.entities.urls;
+      data.retweeted_status.entities.urls.reverse();
 
     if (retweetUrls && retweetUrls.length) {
       data.retweeted_status.text = data.retweeted_status.text.replace(
         /\n/g,
         "<br />"
       );
-      retweetUrls.forEach((u, i) => {
-        if (i + 1 === retweetUrls.length) {
+      acquired = false;
+      retweetUrls.forEach(u => {
+        // expanded_urlが「https://twitter.com」で始まり、文字列IDで終わる場合、
+        // 同じメッセージを表示してしまうので飛ばす。
+        if (
+          u.expanded_url.startsWith("https://twitter.com") &&
+          u.expanded_url.endsWith(data.retweeted_status.id_str)
+        ) {
+          return;
+        }
+
+        if (!acquired) {
           getOg(u.expanded_url).then(d => {
             if (d.og_image && d.og_title && d.og_description) {
               vm.$set(data.retweeted_status, "og", d);
             }
           });
+          acquired = true;
         }
         data.retweeted_status.text = data.retweeted_status.text.replace(
           u.url,
