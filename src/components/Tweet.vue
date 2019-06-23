@@ -51,7 +51,7 @@
             <img
               :src="displayData.og.og_image"
               class="column is-2"
-              style="max-height:120px;width: auto;object-fit: contain;"
+              style="max-height:120px;object-fit: contain;"
             />
             <div class="column">
               <div>

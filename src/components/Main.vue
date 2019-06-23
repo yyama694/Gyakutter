@@ -243,12 +243,20 @@ export default {
       const users = cookie
         .split(";")
         .filter(s => s.trim().startsWith("users="));
-      console.log("users:" + users);
       if (!users[0]) return [];
       return users[0]
         .trim()
         .substr(6)
         .split(",");
+    },
+    getParam: function(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&"); // eslint-disable-line
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
   },
   mounted() {
@@ -257,6 +265,11 @@ export default {
     document.getElementById("search-text").focus();
     this.scrollToTop("return-top", 300);
     this.usersCandidate = this.getUserListFromCookie();
+    const userParam = this.getParam("user_name");
+    if (userParam) {
+      this.$refs.input_user_id.value = userParam;
+      this.search();
+    }
   },
   updated() {
     const windowWidh = this.getDisplayWidh();

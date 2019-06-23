@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.6a329ebebded5b4bdb32669ec5b5079c.js"
+  "precache-manifest.3705bd3fe62bf4c0a86537751ae0c6d5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "gyakutter"});
