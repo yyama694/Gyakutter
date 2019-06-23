@@ -1,5 +1,9 @@
 <template>
-  <div style="background-color: #eff7f6" @click="hiddenUserMenu">
+  <div
+    style="background-color: #eff7f6;"
+    @click="hiddenUserMenu"
+    class="is-size-7-touch"
+  >
     <div class="hero is-primary hero-body">
       <div class="container">
         <h1 class="title">
@@ -240,8 +244,12 @@ export default {
       const users = cookie
         .split(";")
         .filter(s => s.trim().startsWith("users="));
+      console.log("users:" + users);
       if (!users[0]) return [];
-      return users[0].substr(7).split(",");
+      return users[0]
+        .trim()
+        .substr(6)
+        .split(",");
     }
   },
   mounted() {
