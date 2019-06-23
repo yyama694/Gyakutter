@@ -157,6 +157,7 @@ export default {
       getTweetById(this.user_id)
         .then(function(result) {
           self.list = replaceExtraUrl(result);
+          // self.list = replaceMention(result);
           self.list = replaceMention(self.list);
           self.list = replaceUrl(self.list, self);
           for (let i = 0; i < self.list.length; i++) {
