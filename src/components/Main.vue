@@ -24,7 +24,6 @@
           <input
             id="search-text"
             tabindex="1"
-            :value="user_id"
             class="input"
             type="text"
             @keyup.enter="search"
