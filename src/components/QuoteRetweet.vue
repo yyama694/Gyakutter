@@ -9,7 +9,10 @@
         />
       </figure>
     </div>
-    <div class="column">
+    <div
+      class="column is-11-desktop is-11-tablet is-10-mobile"
+      style="word-wrap:break-word;"
+    >
       <span class="is-pulled-left has-text-black">
         {{ data.user.name
         }}<span class="has-text-grey is-size-7"
