@@ -154,8 +154,11 @@ export default {
       });
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
+      console.count();
       getTweetById(this.user_id)
         .then(function(result) {
+          console.count();
+
           self.list = replaceExtraUrl(result);
           // self.list = replaceMention(result);
           self.list = replaceMention(self.list);
@@ -164,6 +167,7 @@ export default {
             const random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");
           }
+          console.count();
           document.getElementById("spinner").style.display = "none";
           // Cookieに格納
           const arr2 = self
@@ -172,6 +176,8 @@ export default {
           arr2.unshift(self.user_id);
           arr2.splice(25);
           const count = new Date("2037/12/31 23:59");
+          console.count();
+
           document.cookie =
             "users=" +
             encodeURIComponent(arr2.join(",")) +

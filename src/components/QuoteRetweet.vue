@@ -50,7 +50,7 @@ export default {
   computed: {
     dynamicTweetText: function() {
       return {
-        template: `<div class="tweet-text">${this.data.text}</div>`
+        template: `<div class="tweet-text">${this.data.full_text}</div>`
       };
     }
   },

@@ -33,14 +33,17 @@ function replaceExtraUrl(list) {
   list.forEach(data => {
     // メディアのURL
     if (data.extended_entities && data.extended_entities.media[0]) {
-      data.text = data.text.replace(data.extended_entities.media[0].url, "");
+      data.full_text = data.full_text.replace(
+        data.extended_entities.media[0].url,
+        ""
+      );
     }
     if (
       data.retweeted_status &&
       data.retweeted_status.extended_entities &&
       data.retweeted_status.extended_entities.media[0]
     ) {
-      data.retweeted_status.text = data.retweeted_status.text.replace(
+      data.retweeted_status.full_text = data.retweeted_status.full_text.replace(
         data.retweeted_status.extended_entities.media[0].url,
         ""
       );
@@ -50,7 +53,7 @@ function replaceExtraUrl(list) {
       data.quoted_status.extended_entities &&
       data.quoted_status.extended_entities.media[0]
     ) {
-      data.quoted_status.text = data.quoted_status.text.replace(
+      data.quoted_status.full_text = data.quoted_status.full_text.replace(
         data.quoted_status.extended_entities.media[0].url,
         ""
       );
@@ -62,7 +65,7 @@ function replaceExtraUrl(list) {
       data.entities.urls[0] &&
       data.entities.urls[0].url
     ) {
-      data.text = data.text.replace(data.entities.urls[0].url, "");
+      data.full_text = data.full_text.replace(data.entities.urls[0].url, "");
     }
   });
   return list;
@@ -72,7 +75,7 @@ function replaceMention(list) {
     const mentions = data.entities.user_mentions;
     if (mentions.length) {
       mentions.forEach(m => {
-        data.text = data.text.replace(
+        data.full_text = data.full_text.replace(
           "@" + m.screen_name,
           "<a href=\"#\" @click.stop=\"$emit('user','" +
             m.screen_name +
@@ -89,7 +92,7 @@ function replaceMention(list) {
 
     if (QuoteMentions && QuoteMentions.length) {
       QuoteMentions.forEach(m => {
-        data.quoted_status.text = data.quoted_status.text.replace(
+        data.quoted_status.full_text = data.quoted_status.full_text.replace(
           "@" + m.screen_name,
           "<a href=\"#\" @click.stop=\"$emit('user','" +
             m.screen_name +
@@ -106,7 +109,7 @@ function replaceMention(list) {
       data.retweeted_status.entities.user_mentions;
     if (retweetMentions && retweetMentions.length) {
       retweetMentions.forEach(m => {
-        data.retweeted_status.text = data.retweeted_status.text.replace(
+        data.retweeted_status.full_text = data.retweeted_status.full_text.replace(
           "@" + m.screen_name,
           "<a href=\"#\" @click.stop=\"$emit('user','" +
             m.screen_name +
@@ -123,7 +126,7 @@ function replaceMention(list) {
 function replaceUrl(list, vm) {
   console.log(vm);
   list.forEach(data => {
-    data.text = data.text.replace(/\n/g, "<br />");
+    data.full_text = data.full_text.replace(/\n/g, "<br />");
     const urls = data.entities.urls.reverse();
     let acquired = false;
     if (urls.length) {
@@ -144,7 +147,7 @@ function replaceUrl(list, vm) {
           });
           acquired = true;
         }
-        data.text = data.text.replace(
+        data.full_text = data.full_text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );
@@ -156,7 +159,7 @@ function replaceUrl(list, vm) {
       data.quoted_status.entities.urls.reverse();
 
     if (quoteUrls && quoteUrls.length) {
-      data.quoted_status.text = data.quoted_status.text.replace(
+      data.quoted_status.full_text = data.quoted_status.full_text.replace(
         /\n/g,
         "<br />"
       );
@@ -179,7 +182,7 @@ function replaceUrl(list, vm) {
           });
           acquired = true;
         }
-        data.quoted_status.text = data.quoted_status.text.replace(
+        data.quoted_status.full_text = data.quoted_status.full_text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );
@@ -191,7 +194,7 @@ function replaceUrl(list, vm) {
       data.retweeted_status.entities.urls.reverse();
 
     if (retweetUrls && retweetUrls.length) {
-      data.retweeted_status.text = data.retweeted_status.text.replace(
+      data.retweeted_status.full_text = data.retweeted_status.full_text.replace(
         /\n/g,
         "<br />"
       );
@@ -214,7 +217,7 @@ function replaceUrl(list, vm) {
           });
           acquired = true;
         }
-        data.retweeted_status.text = data.retweeted_status.text.replace(
+        data.retweeted_status.full_text = data.retweeted_status.full_text.replace(
           u.url,
           '<a href="' + u.url + '" target="_brank">' + u.display_url + "</a>"
         );
