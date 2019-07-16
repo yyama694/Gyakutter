@@ -127,7 +127,8 @@ export default {
       user_id: "",
       list: [],
       pre_user_id: "",
-      usersCandidate: []
+      usersCandidate: [],
+      tweet_id_str: ""
     };
   },
   methods: {
@@ -155,19 +156,18 @@ export default {
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
       console.count();
-      getTweetById(this.user_id)
+      getTweetById(this.user_id, this.tweet_id_str)
         .then(function(result) {
-          console.count();
-
           self.list = replaceExtraUrl(result);
           // self.list = replaceMention(result);
           self.list = replaceMention(self.list);
           self.list = replaceUrl(self.list, self);
+          self.tweet_id_str = self.list[0].id_str;
+          console.log("tweet_id_str:" + self.tweet_id_str);
           for (let i = 0; i < self.list.length; i++) {
             const random = Math.floor(Math.random() * 20);
             if (random === 0) self.list.splice(i, 0, "ads");
           }
-          console.count();
           document.getElementById("spinner").style.display = "none";
           // Cookieに格納
           const arr2 = self
@@ -186,12 +186,12 @@ export default {
             ";";
           self.usersCandidate = arr2;
         })
-        .catch(() => {
+        .catch(e => {
+          console.log(e);
           self.list = [];
           document.getElementById("error-msg").style.display = "block";
           document.getElementById("spinner").style.display = "none";
         });
-      // self.$refs.btn_search.focus();
     },
     getDisplayWidh: function() {
       return document.body.clientWidth;
