@@ -156,18 +156,12 @@ export default {
       document.getElementById("error-msg").style.display = "none";
       document.getElementById("spinner").style.display = "block";
       document.getElementById("load-old-tweet").style.display = "none";
-      // const tags = document.getElementsByName("ad-space");
-      // tags.forEach(element => {
-      //   // 意味なかったら消す
-      //   while (element.firstChild) element.removeChild(element.firstChild);
-      // });
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
       getTweetById(this.user_id, this.tweet_id_str)
         .then(function(result) {
           let tmpList;
           tmpList = replaceExtraUrl(result);
-          // self.list = replaceMention(result);
           tmpList = replaceMention(tmpList);
           tmpList = replaceUrl(tmpList, self);
           for (let i = 0; i < tmpList.length; i++) {
@@ -177,7 +171,6 @@ export default {
           self.list = tmpList.concat(self.list);
           self.tweet_id_str = self.list[0].id_str;
           console.log("tweet_id_str:" + self.tweet_id_str);
-          document.getElementById("spinner").style.display = "none";
           // Cookieに格納
           const arr2 = self
             .getUserListFromCookie()
@@ -185,7 +178,6 @@ export default {
           arr2.unshift(self.user_id);
           arr2.splice(25);
           const count = new Date("2037/12/31 23:59");
-
           document.cookie =
             "users=" +
             encodeURIComponent(arr2.join(",")) +
@@ -193,6 +185,8 @@ export default {
             count.toUTCString() +
             ";";
           self.usersCandidate = arr2;
+
+          document.getElementById("spinner").style.display = "none";
           document.getElementById("load-old-tweet").style.display = "block";
         })
         .catch(e => {
