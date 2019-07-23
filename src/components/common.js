@@ -124,7 +124,6 @@ function replaceMention(list) {
 }
 
 function replaceUrl(list, vm) {
-  console.log(vm);
   list.forEach(data => {
     data.full_text = data.full_text.replace(/\n/g, "<br />");
     const urls = data.entities.urls.reverse();

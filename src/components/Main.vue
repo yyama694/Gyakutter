@@ -40,7 +40,11 @@
             ref="btn_search"
             class="button is-success"
             tabindex="2"
-            @click="search"
+            @click="
+              list = [];
+              tweet_id_str = '';
+              search();
+            "
             @keyup.enter="search"
             >Search</a
           >
@@ -56,6 +60,9 @@
         </div>
         <div id="error-msg" class="error">
           ツィートが取得できませんでした。
+        </div>
+        <div id="load-old-tweet" class="box load-old-tweet">
+          <a @click="search">さらに古いツイートを取得する</a>
         </div>
         <div
           v-for="d in list"
@@ -148,26 +155,28 @@ export default {
     search: function() {
       document.getElementById("error-msg").style.display = "none";
       document.getElementById("spinner").style.display = "block";
-      const tags = document.getElementsByName("ad-space");
-      tags.forEach(element => {
-        // 意味なかったら消す
-        while (element.firstChild) element.removeChild(element.firstChild);
-      });
+      document.getElementById("load-old-tweet").style.display = "none";
+      // const tags = document.getElementsByName("ad-space");
+      // tags.forEach(element => {
+      //   // 意味なかったら消す
+      //   while (element.firstChild) element.removeChild(element.firstChild);
+      // });
       this.user_id = this.$refs.input_user_id.value;
       const self = this;
-      console.count();
       getTweetById(this.user_id, this.tweet_id_str)
         .then(function(result) {
-          self.list = replaceExtraUrl(result);
+          let tmpList;
+          tmpList = replaceExtraUrl(result);
           // self.list = replaceMention(result);
-          self.list = replaceMention(self.list);
-          self.list = replaceUrl(self.list, self);
+          tmpList = replaceMention(tmpList);
+          tmpList = replaceUrl(tmpList, self);
+          for (let i = 0; i < tmpList.length; i++) {
+            const random = Math.floor(Math.random() * 20);
+            if (random === 0) tmpList.splice(i, 0, "ads");
+          }
+          self.list = tmpList.concat(self.list);
           self.tweet_id_str = self.list[0].id_str;
           console.log("tweet_id_str:" + self.tweet_id_str);
-          for (let i = 0; i < self.list.length; i++) {
-            const random = Math.floor(Math.random() * 20);
-            if (random === 0) self.list.splice(i, 0, "ads");
-          }
           document.getElementById("spinner").style.display = "none";
           // Cookieに格納
           const arr2 = self
@@ -176,7 +185,6 @@ export default {
           arr2.unshift(self.user_id);
           arr2.splice(25);
           const count = new Date("2037/12/31 23:59");
-          console.count();
 
           document.cookie =
             "users=" +
@@ -185,6 +193,7 @@ export default {
             count.toUTCString() +
             ";";
           self.usersCandidate = arr2;
+          document.getElementById("load-old-tweet").style.display = "block";
         })
         .catch(e => {
           console.log(e);
@@ -239,6 +248,8 @@ export default {
       }
     },
     searchUser: function() {
+      this.list = [];
+      this.tweet_id_str = "";
       this.$refs.input_user_id.value = this.pre_user_id;
       document.getElementById("spinner").style.display = "block";
       document.getElementById("return-top").click();
@@ -379,4 +390,8 @@ $box-padding: 0.6rem
   display: none;
 #user-menu.show
   display: block;
+.load-old-tweet
+  border-radius: 0px;
+  text-align: center;
+  display: none;
 </style>
