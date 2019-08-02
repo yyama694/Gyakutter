@@ -234,12 +234,7 @@ export default {
       this.pre_user_id = name;
     },
     hiddenUserMenu: function() {
-      if (!this.$refs.userMenu) {
-        return;
-      }
-      if (this.$refs.userMenu.classList.contains("show")) {
-        this.$refs.userMenu.classList.remove("show");
-      }
+      this.$refs.userMenu.classList.remove("show");
     },
     searchUser: function() {
       this.list = [];

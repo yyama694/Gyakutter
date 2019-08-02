@@ -18,14 +18,10 @@ function formatDate(dateStr) {
 }
 
 function photoCount(data) {
-  if (!data.extended_entities) {
+  if (!data.extended_entities || !data.extended_entities.media) {
     return 0;
   }
-  if (!data.extended_entities.media) {
-    return 0;
-  }
-  const medias = data.extended_entities.media;
-  return medias.filter(d => d.type === "photo").length;
+  return data.extended_entities.media.filter(d => d.type === "photo").length;
 }
 
 // ツイート中の余計なURLを削除
