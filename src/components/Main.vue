@@ -157,6 +157,7 @@ export default {
       document.getElementById("spinner").style.display = "block";
       document.getElementById("load-old-tweet").style.display = "none";
       this.user_id = this.$refs.input_user_id.value;
+      this.$refs.btn_search.focus();
       const self = this;
       getTweetById(this.user_id, this.tweet_id_str)
         .then(function(result) {
