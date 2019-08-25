@@ -16,7 +16,7 @@
     "epic-spinners": "^1.0.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "register-service-worker": "^1.6.2",
-    "vue": "^2.6.6",
+    "vue": "^2.6.10",
     "vue-google-adsense": "^1.5.1",
     "vue-script-src": "^0.2.1",
     "vue-script2": "^2.0.3"
