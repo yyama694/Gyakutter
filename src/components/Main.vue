@@ -52,12 +52,8 @@
             color="#00d1b2"
           />
         </div>
-        <div id="error-msg" class="error">
-          ツィートが取得できませんでした。
-        </div>
-        <div id="load-old-tweet" class="box load-old-tweet">
-          <a @click="search">さらに古いツイートを取得する</a>
-        </div>
+        <tweet-not-get-msg id="error-msg" />
+        <more-tweet-msg id="load-old-tweet" @search="search" />
         <div
           v-for="d in list"
           :key="d.id_str"
@@ -105,6 +101,8 @@
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
 import GyakutterTitle from "./GyakutterTitle.vue";
+import TweetNotGetMsg from "./TweetNotGetMsg";
+import MoreTweetMsg from "./MoreTweetMsg";
 import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 import { replaceMention } from "./common.js";
@@ -119,7 +117,9 @@ export default {
     HalfCircleSpinner,
     Tweet,
     QuoteRetweet,
-    GyakutterTitle
+    GyakutterTitle,
+    TweetNotGetMsg,
+    MoreTweetMsg
   },
   name: "Main",
   props: {
