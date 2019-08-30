@@ -4,17 +4,7 @@
     @click="hiddenUserMenu"
     class="is-size-7-touch"
   >
-    <div class="hero is-primary hero-body">
-      <div class="container">
-        <h1 class="title">
-          Gyakutter
-        </h1>
-        <h2 class="subtitle">
-          ログイン不要！ 時系列昇順で ツィート を表示する Twitter
-          クライアントです。
-        </h2>
-      </div>
-    </div>
+    <gyakutter-title />
     <div class="container main-area">
       <div class="description">
         ユーザ名を指定して Search ボタンを押してください。
@@ -114,6 +104,7 @@
 <script>
 import getTweetById from "../api/Tweet.js";
 import { HalfCircleSpinner } from "epic-spinners";
+import GyakutterTitle from "./GyakutterTitle.vue";
 import Tweet from "./Tweet.vue";
 import QuoteRetweet from "./QuoteRetweet.vue";
 import { replaceMention } from "./common.js";
@@ -127,7 +118,8 @@ export default {
   components: {
     HalfCircleSpinner,
     Tweet,
-    QuoteRetweet
+    QuoteRetweet,
+    GyakutterTitle
   },
   name: "Main",
   props: {
