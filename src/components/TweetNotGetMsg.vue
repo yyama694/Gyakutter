@@ -1,5 +1,5 @@
 <template>
   <div class="error">
-    ツィートが取得できませんでした。
+    {{ $t("message.tweet_cant_obtained") }}
   </div>
 </template>

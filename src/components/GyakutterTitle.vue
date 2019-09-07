@@ -5,8 +5,7 @@
         Gyakutter
       </h1>
       <h2 class="subtitle">
-        ログイン不要！ 時系列昇順で ツィート を表示する Twitter
-        クライアントです。
+        {{ $t("message.app_description") }}
       </h2>
     </div>
   </div>

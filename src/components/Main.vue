@@ -7,7 +7,7 @@
     <gyakutter-title />
     <div class="container main-area">
       <div class="description">
-        ユーザ名を指定して Search ボタンを押してください。
+        {{ $t("message.explanation") }}
       </div>
       <div class="columns">
         <div class="column">
@@ -90,9 +90,9 @@
       ref="userMenu"
       style="padding: 1rem; background-color: #f4f7f7"
     >
-      <a href="#" @click="searchUser" onclick="return false;" class="is-size-6"
-        >このユーザを検索</a
-      >
+      <a href="#" @click="searchUser" onclick="return false;" class="is-size-6">
+        {{ $t("message.search_this_user") }}
+      </a>
     </div>
   </div>
 </template>
@@ -300,6 +300,9 @@ export default {
       iframeDocument.write(html);
       iframeDocument.close();
     });
+  },
+  created() {
+    console.log(navigator.language);
   }
 };
 </script>
