@@ -94,6 +94,19 @@
         {{ $t("message.search_this_user") }}
       </a>
     </div>
+    <footer class="footer">
+      <div class="content">
+        <p class="" style="display:inline;margin:1rem">
+          <a href="https://yyama694.github.io/gyakutter/"
+            >プライバシーポリシー</a
+          >
+        </p>
+        <p class="" style="display:inline;margin:1rem">
+          <a href="https://yyama694.github.io/gyakutter/">Gyakutter</a> by
+          <a href="https://twitter.com/yyama694">yyama</a>.
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -309,6 +322,7 @@ export default {
 
 <style lang="sass">
 $box-padding: 0.6rem
+$footer-padding: 1.0rem
 @import "../../node_modules/bulma/bulma.sass";
 
 .tweet-text
