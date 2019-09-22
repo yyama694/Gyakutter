@@ -21,7 +21,7 @@
               tweet_id_str = '';
               search();
             "
-            placeholder="例）@TwitterJP"
+            :placeholder="$t('message.search_user_placeholder')"
             ref="input_user_id"
             list="user-list"
           />

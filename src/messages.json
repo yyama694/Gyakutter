@@ -5,7 +5,8 @@
       "explanation": "Enter user name and press the Search button.",
       "get_older_tweet": "Get older tweets",
       "search_this_user": "Search for this user",
-      "tweet_cant_obtained": "Tweets could not be obtained."
+      "tweet_cant_obtained": "Tweets could not be obtained.",
+      "search_user_placeholder": "ex) @Twitter"
     }
   },
   "ja": {
@@ -14,7 +15,8 @@
       "explanation": "ユーザ名を指定して Search ボタンを押してください。",
       "get_older_tweet": "さらに古いツイートを取得する",
       "search_this_user": "このユーザを検索",
-      "tweet_cant_obtained": "ツイートが取得できませんでした。"
+      "tweet_cant_obtained": "ツイートが取得できませんでした。",
+      "search_user_placeholder": "例）@TwitterJP"
     }
   }
 }
