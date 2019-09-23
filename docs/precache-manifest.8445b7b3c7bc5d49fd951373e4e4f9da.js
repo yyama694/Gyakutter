@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "522ef503aff3ee46aab4",
-    "url": "js/privacy.491d0bba.js"
+    "revision": "7fcb1ddff0869a6a35a2",
+    "url": "js/privacy.93b30831.js"
   },
   {
     "revision": "4d0245b074489629d734ec2d961f4420",
@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "robots.txt"
   },
   {
-    "revision": "38dc6abe398da20cfc2087c44ad17dc1",
+    "revision": "70b118cdb8f9065a6a15b44a437a123f",
     "url": "privacy_poricy.html"
   },
   {
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "google386b748315c041ee.html"
   },
   {
-    "revision": "522ef503aff3ee46aab4",
+    "revision": "7fcb1ddff0869a6a35a2",
     "url": "css/privacy.cd242f3f.css"
   },
   {
