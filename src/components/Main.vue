@@ -94,19 +94,7 @@
         {{ $t("message.search_this_user") }}
       </a>
     </div>
-    <footer class="footer">
-      <div class="content">
-        <p class="" style="display:inline;margin:1rem">
-          <a href="https://yyama694.github.io/gyakutter/"
-            >プライバシーポリシー</a
-          >
-        </p>
-        <p class="" style="display:inline;margin:1rem">
-          <a href="https://yyama694.github.io/gyakutter/">Gyakutter</a> by
-          <a href="https://twitter.com/yyama694">yyama</a>.
-        </p>
-      </div>
-    </footer>
+    <gyakutter-footer />
   </div>
 </template>
 
@@ -121,6 +109,7 @@ import QuoteRetweet from "./QuoteRetweet.vue";
 import { replaceMention } from "./common.js";
 import { replaceUrl } from "./common.js";
 import { replaceExtraUrl } from "./common.js";
+import GyakutterFooter from "./GyakutterFooter.vue";
 
 const displayNone = function(event) {
   event.srcElement.style.visibility = "hidden";
@@ -132,7 +121,8 @@ export default {
     QuoteRetweet,
     GyakutterTitle,
     TweetNotGetMsg,
-    MoreTweetMsg
+    MoreTweetMsg,
+    GyakutterFooter
   },
   name: "Main",
   props: {
@@ -321,10 +311,7 @@ export default {
 </script>
 
 <style lang="sass">
-$box-padding: 0.6rem
-$footer-padding: 1.0rem
 @import "../../node_modules/bulma/bulma.sass";
-
 .tweet-text
   clear: both;
   white-space: pre-wrap;
